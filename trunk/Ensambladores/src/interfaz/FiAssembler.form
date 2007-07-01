@@ -92,6 +92,10 @@
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane(){&#xa;  public void paintComponent(Graphics g)&#xa;  {&#xa;    super.paintComponent(g);&#xa;    Image img = null;&#xa;    try{&#xa;        img = javax.imageio.ImageIO.read(getClass().getResource(&quot;/background.jpg&quot;));&#xa;    }catch(Exception e){}&#xa;    &#xa;    if(img != null) g.drawImage(img, 0,0,this.getWidth(),this.getHeight(),this);&#xa;    else g.drawString(&quot;Image not found&quot;, 50,50);&#xa;}};"/>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="FiAssembler_jDesktopPane1"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout"/>
       <SubComponents>
@@ -315,7 +319,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-              <JLayeredPaneConstraints x="510" y="310" width="310" height="90" layer="0" position="-1"/>
+              <JLayeredPaneConstraints x="490" y="310" width="310" height="90" layer="0" position="-1"/>
             </Constraint>
           </Constraints>
 

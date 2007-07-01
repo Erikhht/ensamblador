@@ -11,10 +11,12 @@ package interfaz;
 
 import archivo.*;
 import excepciones.NumeroColumnasDiferenteException;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.beans.PropertyVetoException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,230 +42,241 @@ public class FiAssembler extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        jIFCodigoAsm = new javax.swing.JInternalFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTACodigoAsm = new javax.swing.JTextArea();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jInternalFrame2 = new javax.swing.JInternalFrame();
-        jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jInternalFrame3 = new javax.swing.JInternalFrame();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTSimbolos = new javax.swing.JTable();
-        jInternalFrame4 = new javax.swing.JInternalFrame();
-        jButton3 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMIAbrir = new javax.swing.JMenuItem();
-        jMISalir = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g)
+            {
+                super.paintComponent(g);
+                Image img = null;
+                try{
+                    img = javax.imageio.ImageIO.read(getClass().getResource("/background.jpg"));
+                }catch(Exception e){}
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("FI Assembler");
-        setName("FiAssembler");
-        jDesktopPane1.setBackground(new java.awt.Color(102, 102, 102));
-        jIFCodigoAsm.setIconifiable(true);
-        jIFCodigoAsm.setMaximizable(true);
-        jIFCodigoAsm.setResizable(true);
-        jIFCodigoAsm.setVisible(true);
-        jTACodigoAsm.setColumns(20);
-        jTACodigoAsm.setRows(5);
-        jScrollPane1.setViewportView(jTACodigoAsm);
+                if(img != null) g.drawImage(img, 0,0,this.getWidth(),this.getHeight(),this);
+                else g.drawString("Image not found", 50,50);
+            }};
+            jIFCodigoAsm = new javax.swing.JInternalFrame();
+            jScrollPane1 = new javax.swing.JScrollPane();
+            jTACodigoAsm = new javax.swing.JTextArea();
+            jInternalFrame1 = new javax.swing.JInternalFrame();
+            jScrollPane2 = new javax.swing.JScrollPane();
+            jTextArea1 = new javax.swing.JTextArea();
+            jInternalFrame2 = new javax.swing.JInternalFrame();
+            jToolBar1 = new javax.swing.JToolBar();
+            jButton1 = new javax.swing.JButton();
+            jButton2 = new javax.swing.JButton();
+            jInternalFrame3 = new javax.swing.JInternalFrame();
+            jScrollPane3 = new javax.swing.JScrollPane();
+            jTSimbolos = new javax.swing.JTable();
+            jInternalFrame4 = new javax.swing.JInternalFrame();
+            jButton3 = new javax.swing.JButton();
+            jMenuBar1 = new javax.swing.JMenuBar();
+            jMenu1 = new javax.swing.JMenu();
+            jMIAbrir = new javax.swing.JMenuItem();
+            jMISalir = new javax.swing.JMenuItem();
+            jMenu3 = new javax.swing.JMenu();
+            jMenuItem1 = new javax.swing.JMenuItem();
+            jMenu2 = new javax.swing.JMenu();
 
-        org.jdesktop.layout.GroupLayout jIFCodigoAsmLayout = new org.jdesktop.layout.GroupLayout(jIFCodigoAsm.getContentPane());
-        jIFCodigoAsm.getContentPane().setLayout(jIFCodigoAsmLayout);
-        jIFCodigoAsmLayout.setHorizontalGroup(
-            jIFCodigoAsmLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jIFCodigoAsmLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jIFCodigoAsmLayout.setVerticalGroup(
-            jIFCodigoAsmLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jIFCodigoAsmLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
-        );
-        jIFCodigoAsm.setBounds(10, 80, 470, 310);
-        jDesktopPane1.add(jIFCodigoAsm, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            setTitle("FI Assembler");
+            setName("FiAssembler");
+            jDesktopPane1.setBackground(new java.awt.Color(102, 102, 102));
+            jIFCodigoAsm.setIconifiable(true);
+            jIFCodigoAsm.setMaximizable(true);
+            jIFCodigoAsm.setResizable(true);
+            jIFCodigoAsm.setVisible(true);
+            jTACodigoAsm.setColumns(20);
+            jTACodigoAsm.setRows(5);
+            jScrollPane1.setViewportView(jTACodigoAsm);
 
-        jInternalFrame1.setIconifiable(true);
-        jInternalFrame1.setMaximizable(true);
-        jInternalFrame1.setResizable(true);
-        jInternalFrame1.setVisible(true);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+            org.jdesktop.layout.GroupLayout jIFCodigoAsmLayout = new org.jdesktop.layout.GroupLayout(jIFCodigoAsm.getContentPane());
+            jIFCodigoAsm.getContentPane().setLayout(jIFCodigoAsmLayout);
+            jIFCodigoAsmLayout.setHorizontalGroup(
+                jIFCodigoAsmLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jIFCodigoAsmLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jIFCodigoAsmLayout.setVerticalGroup(
+                jIFCodigoAsmLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(org.jdesktop.layout.GroupLayout.TRAILING, jIFCodigoAsmLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+            );
+            jIFCodigoAsm.setBounds(10, 80, 470, 310);
+            jDesktopPane1.add(jIFCodigoAsm, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jInternalFrame1.setBounds(10, 400, 470, 190);
-        jDesktopPane1.add(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            jInternalFrame1.setIconifiable(true);
+            jInternalFrame1.setMaximizable(true);
+            jInternalFrame1.setResizable(true);
+            jInternalFrame1.setVisible(true);
+            jTextArea1.setColumns(20);
+            jTextArea1.setRows(5);
+            jScrollPane2.setViewportView(jTextArea1);
 
-        jInternalFrame2.setVisible(true);
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-        jButton1.setText("Ensamblar");
-        jToolBar1.add(jButton1);
+            org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
+            jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+            jInternalFrame1Layout.setHorizontalGroup(
+                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame1Layout.setVerticalGroup(
+                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame1.setBounds(10, 400, 470, 190);
+            jDesktopPane1.add(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton2.setText("Mas");
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToolBar1.add(jButton2);
+            jInternalFrame2.setVisible(true);
+            jToolBar1.setFloatable(false);
+            jToolBar1.setRollover(true);
+            jButton1.setText("Ensamblar");
+            jToolBar1.add(jButton1);
 
-        org.jdesktop.layout.GroupLayout jInternalFrame2Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame2.getContentPane());
-        jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
-        jInternalFrame2Layout.setHorizontalGroup(
-            jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame2Layout.createSequentialGroup()
-                .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(326, Short.MAX_VALUE))
-        );
-        jInternalFrame2Layout.setVerticalGroup(
-            jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame2Layout.createSequentialGroup()
-                .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jInternalFrame2.setBounds(10, 10, 470, 60);
-        jDesktopPane1.add(jInternalFrame2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            jButton2.setText("Mas");
+            jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            jToolBar1.add(jButton2);
 
-        jInternalFrame3.setIconifiable(true);
-        jInternalFrame3.setMaximizable(true);
-        jInternalFrame3.setResizable(true);
-        jInternalFrame3.setVisible(true);
-        jTSimbolos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTSimbolos.setEnabled(false);
-        jScrollPane3.setViewportView(jTSimbolos);
+            org.jdesktop.layout.GroupLayout jInternalFrame2Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame2.getContentPane());
+            jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
+            jInternalFrame2Layout.setHorizontalGroup(
+                jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame2Layout.createSequentialGroup()
+                    .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(326, Short.MAX_VALUE))
+            );
+            jInternalFrame2Layout.setVerticalGroup(
+                jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame2Layout.createSequentialGroup()
+                    .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            jInternalFrame2.setBounds(10, 10, 470, 60);
+            jDesktopPane1.add(jInternalFrame2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        org.jdesktop.layout.GroupLayout jInternalFrame3Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame3.getContentPane());
-        jInternalFrame3.getContentPane().setLayout(jInternalFrame3Layout);
-        jInternalFrame3Layout.setHorizontalGroup(
-            jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jInternalFrame3Layout.setVerticalGroup(
-            jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jInternalFrame3.setBounds(490, 10, 370, 290);
-        jDesktopPane1.add(jInternalFrame3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            jInternalFrame3.setIconifiable(true);
+            jInternalFrame3.setMaximizable(true);
+            jInternalFrame3.setResizable(true);
+            jInternalFrame3.setVisible(true);
+            jTSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jTSimbolos.setEnabled(false);
+            jScrollPane3.setViewportView(jTSimbolos);
 
-        jInternalFrame4.setVisible(true);
-        jButton3.setText("llenar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+            org.jdesktop.layout.GroupLayout jInternalFrame3Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame3.getContentPane());
+            jInternalFrame3.getContentPane().setLayout(jInternalFrame3Layout);
+            jInternalFrame3Layout.setHorizontalGroup(
+                jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame3Layout.setVerticalGroup(
+                jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame3.setBounds(490, 10, 370, 290);
+            jDesktopPane1.add(jInternalFrame3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
-        jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
-        jInternalFrame4Layout.setHorizontalGroup(
-            jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame4Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jButton3)
-                .addContainerGap(214, Short.MAX_VALUE))
-        );
-        jInternalFrame4Layout.setVerticalGroup(
-            jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jInternalFrame4Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jButton3)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-        jInternalFrame4.setBounds(510, 310, 310, 90);
-        jDesktopPane1.add(jInternalFrame4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            jInternalFrame4.setVisible(true);
+            jButton3.setText("llenar");
+            jButton3.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton3ActionPerformed(evt);
+                }
+            });
 
-        jMenu1.setText("Archivo");
-        jMIAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMIAbrir.setText("Abrir archivo");
-        jMIAbrir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIAbrirActionPerformed(evt);
-            }
-        });
+            org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
+            jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
+            jInternalFrame4Layout.setHorizontalGroup(
+                jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jButton3)
+                    .addContainerGap(214, Short.MAX_VALUE))
+            );
+            jInternalFrame4Layout.setVerticalGroup(
+                jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jButton3)
+                    .addContainerGap(27, Short.MAX_VALUE))
+            );
+            jInternalFrame4.setBounds(490, 310, 310, 90);
+            jDesktopPane1.add(jInternalFrame4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenu1.add(jMIAbrir);
+            jMenu1.setText("Archivo");
+            jMIAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+            jMIAbrir.setText("Abrir archivo");
+            jMIAbrir.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMIAbrirActionPerformed(evt);
+                }
+            });
 
-        jMISalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMISalir.setText("Salir");
-        jMISalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMISalirActionPerformed(evt);
-            }
-        });
+            jMenu1.add(jMIAbrir);
 
-        jMenu1.add(jMISalir);
+            jMISalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+            jMISalir.setText("Salir");
+            jMISalir.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMISalirActionPerformed(evt);
+                }
+            });
 
-        jMenuBar1.add(jMenu1);
+            jMenu1.add(jMISalir);
 
-        jMenu3.setText("Edicion");
-        jMenuItem1.setText("Item");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
+            jMenuBar1.add(jMenu1);
 
-        jMenu3.add(jMenuItem1);
+            jMenu3.setText("Edicion");
+            jMenuItem1.setText("Item");
+            jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMenuItem1ActionPerformed(evt);
+                }
+            });
 
-        jMenuBar1.add(jMenu3);
+            jMenu3.add(jMenuItem1);
 
-        jMenu2.setText("Ver");
-        jMenuBar1.add(jMenu2);
+            jMenuBar1.add(jMenu3);
 
-        setJMenuBar(jMenuBar1);
+            jMenu2.setText("Ver");
+            jMenuBar1.add(jMenu2);
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jDesktopPane1)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jDesktopPane1)
-        );
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            setJMenuBar(jMenuBar1);
+
+            org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jDesktopPane1)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jDesktopPane1)
+            );
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.llenarTablaSimbolos();
