@@ -1,7 +1,7 @@
 /*
  * FiAssembler.java
  *
- * Created on 29 de junio de 2007, 9:12
+ * Creado el 29 de junio de 2007, 9:12
  */
 
 package interfaz;
@@ -10,6 +10,7 @@ import archivo.*;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +24,9 @@ public class FiAssembler extends javax.swing.JFrame {
         initComponents();
         
         this.gestor = new GestorArchivos(this);
+        
+        this.gestorSimbolos = new GestorDatosTabla(this.jTSimbolos);
+        this.gestorSimbolos.setEncabezados("nombre", "Valor");
     }
     
     /** This method is called from within the constructor to
@@ -45,8 +49,9 @@ public class FiAssembler extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jInternalFrame3 = new javax.swing.JInternalFrame();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTSimbolos = new javax.swing.JTable();
         jInternalFrame4 = new javax.swing.JInternalFrame();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMIAbrir = new javax.swing.JMenuItem();
@@ -143,7 +148,7 @@ public class FiAssembler extends javax.swing.JFrame {
         jInternalFrame3.setMaximizable(true);
         jInternalFrame3.setResizable(true);
         jInternalFrame3.setVisible(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTSimbolos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -154,8 +159,8 @@ public class FiAssembler extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setEnabled(false);
-        jScrollPane3.setViewportView(jTable1);
+        jTSimbolos.setEnabled(false);
+        jScrollPane3.setViewportView(jTSimbolos);
 
         org.jdesktop.layout.GroupLayout jInternalFrame3Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame3.getContentPane());
         jInternalFrame3.getContentPane().setLayout(jInternalFrame3Layout);
@@ -177,15 +182,28 @@ public class FiAssembler extends javax.swing.JFrame {
         jDesktopPane1.add(jInternalFrame3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jInternalFrame4.setVisible(true);
+        jButton3.setText("llenar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
         jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
         jInternalFrame4Layout.setHorizontalGroup(
             jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 306, Short.MAX_VALUE)
+            .add(jInternalFrame4Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jButton3)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
         jInternalFrame4Layout.setVerticalGroup(
             jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 65, Short.MAX_VALUE)
+            .add(jInternalFrame4Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jButton3)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jInternalFrame4.setBounds(510, 310, 310, 90);
         jDesktopPane1.add(jInternalFrame4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -243,6 +261,10 @@ public class FiAssembler extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.llenarTablaSimbolos();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(this.gestor.getArchivo() != null)
             this.mostrarCodigo();
@@ -258,6 +280,20 @@ public class FiAssembler extends javax.swing.JFrame {
             this.mostrarCodigo();
     }//GEN-LAST:event_jMIAbrirActionPerformed
 
+    public void llenarTablaSimbolos(){
+        this.gestorSimbolos.setEncabezados("Nueva columna", "Nueva imagen", "todo nuevo");
+        Vector<Vector> datos = new Vector<Vector>();
+        Vector<String> renglones = util.Array.toVector(new String[]{"hola", "ja", "juju"});
+        
+        for (int i = 0; i < 10; i++) {
+            datos.add(renglones);
+        }
+        this.gestorSimbolos.setDatos(datos);
+    }
+    
+    /**
+     * Muestra el codigo del archivo leido en el JTextArea destinado para el codigo fuente.
+     */
     private void mostrarCodigo(){
         try {
             this.gestor.leerArchivo();
@@ -294,6 +330,7 @@ public class FiAssembler extends javax.swing.JFrame {
         });
     }
     
+    private GestorDatosTabla gestorSimbolos;
     private GestorArchivos gestor;
     private static final int DEFAULT_WIDTH = 1160;
     private static final int DEFAULT_HEIGHT = 640;
@@ -302,6 +339,7 @@ public class FiAssembler extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jInternalFrame1;
@@ -319,7 +357,7 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTACodigoAsm;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTSimbolos;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
