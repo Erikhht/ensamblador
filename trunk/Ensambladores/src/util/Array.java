@@ -3,8 +3,8 @@
  *
  * Created on 9 de abril de 2007, 05:14 PM
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ * Autor: Victor Hugo Perez Alvarado
+ * Email: ywegoster@gmail.com
  */
 
 package util;
@@ -13,7 +13,7 @@ import java.util.Vector;
 
 /**
  *
- * @author DELL
+ * @author Victor Hugo Perez Alvarado
  */
 public class Array {
     
@@ -42,8 +42,8 @@ public class Array {
         return vector;
     }
     
-     /**
-     * 
+    /**
+     * Convierte un arreglo de Strings en un Vector<String>
      */
     public static Vector<String> toVector(String[] strings){
         Vector<String> vector = new Vector<String>();

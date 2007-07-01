@@ -3,8 +3,8 @@
  *
  * Created on 29 de junio de 2007, 9:25
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ * Autor: Victor Hugo Perez Alvarado
+ * Email: ywegoster@gmail.com
  */
 
 package archivo;
@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Hugo
+ * @author Victor Hugo Perez Alvarado
  */
 public class GestorArchivos extends JFileChooser{
     

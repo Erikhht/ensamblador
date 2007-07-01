@@ -3,8 +3,8 @@
  *
  * Created on 29 de junio de 2007, 9:26
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ * Autor: Victor Hugo Perez Alvarado
+ * Email: ywegoster@gmail.com
  */
 
 package archivo;
@@ -16,30 +16,32 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Hugo
+ * @author Victor Hugo Perez Alvarado
  */
-public class GestorDatosTabla {
+public class GestorDatosTabla extends DefaultTableModel{
     
     private JTable tabla;
-    private DefaultTableModel model;
+    //private DefaultTableModel model;
     private Vector<String> nombresColumnas;
     
     public GestorDatosTabla(JTable tabla){
+        super();
         this.tabla = tabla;
-        this.model = new DefaultTableModel();
-        this.tabla.setModel(model);
+        //this.model = new DefaultTableModel();
+        this.tabla.setModel(this);
         this.nombresColumnas = new Vector<String>();
     }
     
     
     /** Creates a new instance of GestorDatosTabla */
     public GestorDatosTabla(JTable tabla, Vector<String> encabezado) {
+        super();
         this.tabla = tabla;
-        this.model = new DefaultTableModel();
-        this.tabla.setModel(model);
+        //this.model = new DefaultTableModel();
+        this.tabla.setModel(this);
         this.nombresColumnas = encabezado;
         //establece el nombre de las columnas
-        this.model.setColumnIdentifiers(encabezado);
+        this.setColumnIdentifiers(encabezado);
     }
     
     /**
@@ -48,38 +50,29 @@ public class GestorDatosTabla {
      * del vector de datos.
      */
     public GestorDatosTabla(JTable table, Vector<String> encabezado, Vector<Vector> datos){
+        super();
         this.tabla = tabla;
-        this.model = new DefaultTableModel();
-        this.tabla.setModel(model);        
+        //this.model = new DefaultTableModel();
+        this.tabla.setModel(this);        
         this.nombresColumnas = encabezado;
         //establece el nombre de las columnas y los datos de la tabla
-        this.model.setDataVector(datos, encabezado);
-    }
-    
-    /**
-     * Retorna el numero de columnas de la tabla.
-     */
-    public int getNumeroColumnas(){
-        return this.model.getColumnCount();
+        this.setDataVector(datos, encabezado);
     }
     
     /**
      * Establece el nombre de los encabezados de las columnas en la tabla
      */
-    public void setEncabezados(String... encabezado) throws NumeroColumnasDiferenteException{
-        if(encabezado.length != this.nombresColumnas.size() && this.nombresColumnas.size() != 0)
-            throw new NumeroColumnasDiferenteException("El numero de columnas no coincide con el actual");
-        
+    public void setEncabezados(String... encabezado){
         if(!this.nombresColumnas.isEmpty()) this.nombresColumnas.clear();
         for(String s : encabezado) this.nombresColumnas.add(s);
-        this.model.setColumnIdentifiers(this.nombresColumnas);
+        super.setColumnIdentifiers(this.nombresColumnas);
     }
     
     /**
      * Establece el nombre de los encabezados de las columnas en la tabla
      */
     public void setEncabezados(Vector<String> titulos){
-         this.model.setColumnIdentifiers(titulos);
+         super.setColumnIdentifiers(titulos);
          this.nombresColumnas = titulos;
     }
     
@@ -87,11 +80,29 @@ public class GestorDatosTabla {
      * Establece los datos de la tabla
      */
     public void setDatos(Vector<Vector> datos){
-        this.model.setDataVector(datos, this.nombresColumnas);
+        super.setDataVector(datos, this.nombresColumnas);
     }
     
-    public void addRenglon(Vector<String> renglon){
-        this.model.addRow(renglon);
+    public void addRenglon(Vector<String> renglon) throws NumeroColumnasDiferenteException{
+        if(renglon.size() != super.getColumnCount()) 
+            throw new NumeroColumnasDiferenteException("Los datos excedene el numero de columnas.");
+        super.addRow(renglon);
     }
-   
+    
+    public void addrenglon(String[] strings) throws NumeroColumnasDiferenteException{
+        this.realAddRenglon(strings);
+    }
+    
+    public void addRenglon(String... strings) throws NumeroColumnasDiferenteException{
+        this.realAddRenglon(strings);
+    }
+
+    private void realAddRenglon(String[] strings) throws NumeroColumnasDiferenteException{
+        if(strings.length != super.getColumnCount()) 
+            throw new NumeroColumnasDiferenteException("Los datos exceden el numero de columnas.");
+        
+        Vector<String> renglon = new Vector<String>();
+        for(String x : strings) renglon.add(x);
+        super.addRow(renglon);
+    }
 }

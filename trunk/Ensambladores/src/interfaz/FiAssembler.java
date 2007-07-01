@@ -2,11 +2,15 @@
  * FiAssembler.java
  *
  * Creado el 29 de junio de 2007, 9:12
+ *
+ * Autor: Victor Hugo Perez Alvarado
+ * Email: ywegoster@gmail.com
  */
 
 package interfaz;
 
 import archivo.*;
+import excepciones.NumeroColumnasDiferenteException;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,7 +19,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author  Hugo
+ * @author  Victor Hugo Perez Alvarado
  */
 public class FiAssembler extends javax.swing.JFrame {
     
@@ -26,7 +30,7 @@ public class FiAssembler extends javax.swing.JFrame {
         this.gestor = new GestorArchivos(this);
         
         this.gestorSimbolos = new GestorDatosTabla(this.jTSimbolos);
-        this.gestorSimbolos.setEncabezados("nombre", "Valor");
+        this.gestorSimbolos.setEncabezados("Nombre", "Tipo", "Valor", "Descripcion");
     }
     
     /** This method is called from within the constructor to
@@ -282,13 +286,14 @@ public class FiAssembler extends javax.swing.JFrame {
 
     public void llenarTablaSimbolos(){
         this.gestorSimbolos.setEncabezados("Nueva columna", "Nueva imagen", "todo nuevo");
-        Vector<Vector> datos = new Vector<Vector>();
-        Vector<String> renglones = util.Array.toVector(new String[]{"hola", "ja", "juju"});
-        
+
         for (int i = 0; i < 10; i++) {
-            datos.add(renglones);
+            try {
+                this.gestorSimbolos.addRenglon("Datos", "mas", "jeje");
+            } catch (NumeroColumnasDiferenteException ex) {
+                ex.printStackTrace();
+            }
         }
-        this.gestorSimbolos.setDatos(datos);
     }
     
     /**
