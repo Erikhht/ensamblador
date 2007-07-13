@@ -326,7 +326,7 @@ public class FiAssembler extends javax.swing.JFrame {
         this.jIFSegmentos.setTitle(titulo);
         
         try {
-            this.jTASegmentos.setText(this.ensamblador.getSegment(segment));
+            this.jTASegmentos.setText(this.ensamblador.getParser().getSegment(segment));
             this.jIFSegmentos.setSelected(true);
         } catch (PropertyVetoException ex) {
             ex.printStackTrace();
@@ -368,6 +368,7 @@ public class FiAssembler extends javax.swing.JFrame {
     
     /**
      * Muestra el codigo del archivo leido en el JTextArea destinado para el codigo fuente.
+     * Tambien es cargado el codigo fuente y alamcenado en la clase ensamblador
      */
     private void mostrarCodigo(){
         try {

@@ -1,5 +1,5 @@
 /*
- * Parser.java
+ * ParserAssembly.java
  *
  * Creado el 12 de julio de 2007, 0:46
  *
@@ -10,29 +10,54 @@
 
 package core;
 
-import archivo.GestorArchivos;
+import excepciones.SegmentNotFoundException;
 import java.util.Vector;
+import util.StringUtils;
 
 /**
  *
  * @author Victor Hugo Perez Alvarado
  */
-public class Parser {
-    
-    public static final String TOKEN_COMENTARIO = ";";
+public class ParserAssembly implements Parser {
     
     /**
      * Variable que almacena cada linea de codigo en un vector de strings
      */
     private final Vector<String> codigo;
     
-    /** Crea una nueva instancia de Parser */
-    public Parser(String codigo) {
-        this(Parser.quitarSaltosLinea(codigo));
+    /**
+     * Crea una nueva instancia de ParserAssembly
+     */
+    public ParserAssembly(String codigo) {
+        this(ParserAssembly.quitarSaltosLinea(codigo));
     }
     
-    public Parser(Vector<String> codigo){
+    public ParserAssembly(Vector<String> codigo){
         this.codigo = codigo;
+    }
+    
+       /** 
+     * Extrae el segmento especificado del codigo fuente y cre aun String que contiene
+     * el codigo en formato con saltos de linea
+     */
+    public String getSegment(int segment) throws SegmentNotFoundException{
+        return StringUtils.vectorString(this.getVectorSegment(segment));
+    }
+    
+    /**
+     * Devueve el segmento de datos especificado de acuerdo a la sintaxis definida
+     * Para ello se deben usar las variables estaticas de la clase
+     * CODE_SEGMENT, DATA_SEGMENT, STACK_SEGMENT.
+     */
+    public Vector<String> getVectorSegment(int segment) throws SegmentNotFoundException{
+        ParserAssembly parser = this.quitarComentarios(ParserAssembly.TOKEN_COMENTARIO);
+        if(segment == Ensamblador.CODE_SEGMENT)
+            return parser.getSegment("code", "ends");
+        else if(segment == Ensamblador.DATA_SEGMENT)
+            return parser.getSegment("data", "ends");
+        else if(segment == Ensamblador.STACK_SEGMENT)
+            return parser.getSegment("stack", "ends");
+        throw new SegmentNotFoundException("Tipo de segmento no v‡lido");
     }
     
     /**
@@ -72,14 +97,14 @@ public class Parser {
         return segmento;
     }
     
-    public Parser quitarComentarios(String token){
+    public ParserAssembly quitarComentarios(String token){
         Vector<String> codigo = new Vector<String>();
         String[] temp;
         for(int x = 0; x < this.codigo.size(); x++){
             temp = this.codigo.get(x).split(token);
             codigo.add(temp[0]);
         }   
-        return new Parser(codigo);
+        return new ParserAssembly(codigo);
     }
     
     /**

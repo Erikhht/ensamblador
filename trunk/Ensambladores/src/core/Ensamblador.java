@@ -24,43 +24,18 @@ public class Ensamblador {
     public static int DATA_SEGMENT = 1;
     public static int STACK_SEGMENT = 2;
     
-    private Parser parser;
+    private ParserAssembly parser;
     
     /** Crea una nueva instancia de Ensamblador */
     public Ensamblador(String codigo) {
-        this.parser = new Parser(codigo);
+        this.parser = new ParserAssembly(codigo);
     }
     
-    public Ensamblador(Parser parser){
+    public Ensamblador(ParserAssembly parser){
         this.parser = parser;
     }
     
-    /** 
-     * Extrae el segmento especificado del codigo fuente y cre aun String que contiene
-     * el codigo en formato con saltos de linea
-     */
-    
-    public String getSegment(int segment) throws SegmentNotFoundException{
-        return StringUtils.vectorString(this.getVectorSegment(segment));
-    }
-    
-    /**
-     * Devueve el segmento de datos especificado de acuerdo a la sintaxis definida
-     * Para ello se deben usar las variables estaticas de la clase
-     * CODE_SEGMENT, DATA_SEGMENT, STACK_SEGMENT.
-     */
-    public Vector<String> getVectorSegment(int segment) throws SegmentNotFoundException{
-        Parser parser = this.parser.quitarComentarios(Parser.TOKEN_COMENTARIO);
-        if(segment == Ensamblador.CODE_SEGMENT)
-            return parser.getSegment("code", "ends");
-        else if(segment == Ensamblador.DATA_SEGMENT)
-            return parser.getSegment("data", "ends");
-        else if(segment == Ensamblador.STACK_SEGMENT)
-            return parser.getSegment("stack", "ends");
-        throw new SegmentNotFoundException("Tipo de segmento no v‡lido");
-    }
-    
-    public Parser getParser(){
+    public ParserAssembly getParser(){
         return this.parser;
     }
     
