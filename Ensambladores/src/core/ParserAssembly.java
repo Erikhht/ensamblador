@@ -10,6 +10,8 @@
 
 package core;
 
+import core.simbolos.variables.Variable;
+import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
 import interfaces.Parser;
 import java.util.Vector;
@@ -34,6 +36,8 @@ public class ParserAssembly implements Parser {
     }
     
     public ParserAssembly(Vector<String> codigo){
+        //Elimina los comentarios del codigo para el resto de las operaciones con este codigo fuente
+        codigo = this.quitarComentarios(ParserAssembly.TOKEN_COMENTARIO, codigo);
         this.codigo = codigo;
     }
     
@@ -131,5 +135,91 @@ public class ParserAssembly implements Parser {
      */
     public int getNumeroLineas(){
         return this.codigo.size();
+    }
+    
+    /**
+     * Separa una linea en palabras, omitiendo todos los espacios en blanco entre ellas
+     */
+    public Vector<String> quitarEspacios(String linea){
+        String[] palabras =  linea.split(" ");
+        Vector<String> palabrasSinEspacios = new Vector<String>();
+        for(String s : palabras)
+            if(!s.equals(""))
+                palabrasSinEspacios.add(s);
+        
+        return palabrasSinEspacios;
+    }
+    
+    public Vector<String> separarTresOperandos(String linea) throws InstruccionException{
+        Vector<String> partesTemp = this.quitarEspacios(linea);
+        if(partesTemp.size() < 2)
+            throw new InstruccionException("Instruccion no valida");
+        Vector<String> partes = new Vector<String>();
+        //parte inicial
+        partes.add(partesTemp.get(0));
+        
+        String[] temp;
+        if(partesTemp.get(1).contains(",")){
+            temp = partesTemp.get(1).split(",");
+            partes.add(temp[0]);
+            if(temp.length == 1)
+                partes.add(partesTemp.get(2));
+            else
+                partes.add(temp[1]);
+        }else if(partesTemp.get(2).contains(",")){
+           if(partesTemp.get(2).equals(",")){
+               partes.add(partesTemp.get(1));
+               partes.add(partesTemp.get(3));
+           }else if(partesTemp.get(2).contains(",")){
+               temp = partesTemp.get(2).split(",");
+               partes.add(temp[0]);
+           }
+        }
+        
+        return partes;
+    }
+    
+    /**
+     * Este metodo extrae el nombre de las variables y su tipo, del segmento de codigo
+     */
+    public Vector<Variable> getVariables() throws SegmentNotFoundException{
+        Vector<Variable> variables = new Vector<Variable>();
+        //Se obtiene el segmento de datos
+        Vector<String> segmentoDatos = this.getVectorSegment(Ensamblador.DATA_SEGMENT);
+        
+        Vector<String> varTemp = new Vector<String>();
+        for(String linea : segmentoDatos){
+            varTemp = this.quitarEspacios(linea);
+ //           variables = new Variable(varTemp[]);
+        }
+        return null;
+    }
+    
+    public static void main(String[] arg){
+        String cadena = ",";
+        String cadena1 = "   una cadena  con varios   espacios    ;";
+        
+//        ParserAssembly parser = new ParserAssembly("");
+//        Vector<String> palabras = parser.quitarEspacios(cadena);
+//        
+//        for(String s : palabras)
+//            System.out.print("\""+s+"\",");
+//        
+//        System.out.println("");
+//        String[] s = palabras.get(0).split(",");
+//        for(String y : s)
+//            System.out.print("\""+y+"\",");
+        
+        
+        ParserAssembly parser = new ParserAssembly("");
+        Vector<String> palabras = parser.quitarEspacios(cadena);
+        Vector<String> vars = new Vector<String>();
+        try {
+            vars = parser.separarTresOperandos("mov ax  ,bx");
+        } catch (InstruccionException ex) {
+            ex.printStackTrace();
+        }
+        for(String s : vars)
+            System.out.print(s+"///");
     }
 }
