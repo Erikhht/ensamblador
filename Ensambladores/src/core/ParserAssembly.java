@@ -11,6 +11,7 @@
 package core;
 
 import excepciones.SegmentNotFoundException;
+import interfaces.Parser;
 import java.util.Vector;
 import util.StringUtils;
 
