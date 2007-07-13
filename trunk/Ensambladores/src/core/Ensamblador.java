@@ -39,23 +39,6 @@ public class Ensamblador {
      * Extrae el segmento especificado del codigo fuente y cre aun String que contiene
      * el codigo en formato con saltos de linea
      */
-    public String getCodeSegment(){
-        Parser parser = this.parser.quitarComentarios(Parser.TOKEN_COMENTARIO);
-        Vector<String> segmentoCodigo = parser.getSegment("code", "ends");
-        return StringUtils.vectorString(segmentoCodigo);
-    }
-    
-    public String getDataSegment(){
-        Parser parser = this.parser.quitarComentarios(Parser.TOKEN_COMENTARIO);
-        Vector<String> segmentoCodigo = parser.getSegment("data", "ends");
-        return StringUtils.vectorString(segmentoCodigo);
-    }
-    
-    public String getStackSegment(){
-        Parser parser = this.parser.quitarComentarios(Parser.TOKEN_COMENTARIO);
-        Vector<String> segmentoCodigo = parser.getSegment("stack", "ends");
-        return StringUtils.vectorString(segmentoCodigo);
-    }
     
     public String getSegment(int segment) throws SegmentNotFoundException{
         return StringUtils.vectorString(this.getVectorSegment(segment));
