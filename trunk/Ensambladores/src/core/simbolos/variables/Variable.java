@@ -21,4 +21,6 @@ public class Variable {
         
     }
     
+    public String getNombre();
+    public String getTipo();
 }
