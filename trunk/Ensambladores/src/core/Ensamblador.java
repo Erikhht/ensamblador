@@ -35,6 +35,10 @@ public class Ensamblador {
         this.parser = parser;
     }
     
+    public Ensamblador(){
+        
+    }
+    
     public ParserAssembly getParser(){
         return this.parser;
     }

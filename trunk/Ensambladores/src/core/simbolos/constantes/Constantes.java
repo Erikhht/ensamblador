@@ -21,9 +21,9 @@ public class Constantes {
   private Vector valor = new Vector();  
     /** Creates a new instance of Constantes */
     public Constantes(String Nombre, String Tipo, Vector Valor) {
-        nombre=Nombre;
-        tipo=Tipo;
-        valor=Valor;
+        this.nombre=Nombre;
+        this.tipo=Tipo;
+        this.valor=Valor;
     }
     
      public String getNombre(){
