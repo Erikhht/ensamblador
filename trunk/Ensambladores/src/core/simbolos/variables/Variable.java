@@ -18,29 +18,36 @@ import java.util.Vector;
  */
 public class Variable {
     
-  private String name;
-  private String type;
-  private Vector value = new Vector();
-  private String direc;
+
+    private String nombre;
+    private String tipo;
+    /**Vector con los valores de inicializacion de la variable*/
+    private Vector<String> valores = new Vector<String>();
+    private String direccion;
+
     /** Crea una nueva instancia de Variable */
     public Variable(String nombre, String tipo, Vector valor,String direccion) {
-        name=nombre;
-        type=tipo;
-        value=valor;
-        direc=direccion;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.valores = valor;
+        this.direccion = direccion;
     }
     
     public String getNombre(){
-        return name;
+        return nombre;
     }
     public String getTipo(){
-        return type;
+        return tipo;
     }
-    public Vector getValue(){
-        return value;
+    public Vector<String> getValue(){
+        return valores;
     }
     public String getDireccion(){
-        return direc;
+        return direccion;
     }         
+    
+    public void setDireccion(String direccion){
+        this.direccion = direccion;
+    }
     
 }
