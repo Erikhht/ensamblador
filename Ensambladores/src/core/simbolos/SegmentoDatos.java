@@ -10,6 +10,8 @@
 
 package core.simbolos;
 
+import java.util.Vector;
+
 /**
  *
  * @author Victor Hugo Perez Alvarado
