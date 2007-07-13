@@ -180,6 +180,10 @@ public class ParserAssembly implements Parser {
         return partes;
     }
     
+    public Vector<String> separarVariables(String linea){
+        
+    }
+    
     /**
      * Este metodo extrae el nombre de las variables y su tipo, del segmento de codigo
      */
