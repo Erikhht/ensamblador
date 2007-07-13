@@ -12,6 +12,7 @@ package interfaz;
 import archivo.*;
 import core.*;
 import excepciones.NumeroColumnasDiferenteException;
+import excepciones.SegmentNotFoundException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.beans.PropertyVetoException;
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import util.StringUtils;
+import static core.Ensamblador.*;
 
 /**
  *
@@ -300,38 +302,35 @@ public class FiAssembler extends javax.swing.JFrame {
         }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       this.segmentSelected("pila");
+       this.segmentSelected(STACK_SEGMENT);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.segmentSelected("codigo");
+        this.segmentSelected(CODE_SEGMENT);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.segmentSelected("datos");
+       this.segmentSelected(DATA_SEGMENT);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void segmentSelected(String segment){
+    private void segmentSelected(int segment){
         String segmentoLeido = "";
         String titulo = "";
-        if(segment.equals("pila")){
-           segmentoLeido = this.ensamblador.getStackSegment();
+        if(segment == STACK_SEGMENT)
            titulo = "Segmento de pila";
-        }else if(segment.equals("datos")){
-            segmentoLeido = this.ensamblador.getDataSegment();
+        else if(segment == DATA_SEGMENT)
             titulo = "Segmento de datos";
-        }else if(segment.equals("codigo")){
-            segmentoLeido = this.ensamblador.getCodeSegment();
+        else if(segment == CODE_SEGMENT)
             titulo = "Segmento de c—digo";
-        }
         
-        this.jTASegmentos.setText(segmentoLeido);
         this.jIFSegmentos.setTitle(titulo);
         
         try {
-            
+            this.jTASegmentos.setText(this.ensamblador.getSegment(segment));
             this.jIFSegmentos.setSelected(true);
         } catch (PropertyVetoException ex) {
+            ex.printStackTrace();
+        } catch (SegmentNotFoundException ex) {
             ex.printStackTrace();
         }
     }
