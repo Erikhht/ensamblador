@@ -23,6 +23,8 @@ import util.StringUtils;
  */
 public class ParserAssembly implements Parser {
     
+    public static final String EQU = "equ";
+    
     /**
      * Variable que almacena cada linea de codigo en un vector de strings
      */
@@ -46,7 +48,7 @@ public class ParserAssembly implements Parser {
      * el codigo en formato con saltos de linea
      */
     public String getSegment(int segment) throws SegmentNotFoundException{
-        return StringUtils.vectorString(this.getVectorSegment(segment));
+        return StringUtils.vectorToString(this.getVectorSegment(segment));
     }
     
     /**
@@ -72,7 +74,7 @@ public class ParserAssembly implements Parser {
         Vector<String> lineas = new Vector<String>();
         String[] lineasArray = codigo.split("\n");
         for(String linea : lineasArray)
-            lineas.add(linea);
+            if(linea.trim().length() != 0) lineas.add(linea);
         return lineas;
     }
     
@@ -176,31 +178,83 @@ public class ParserAssembly implements Parser {
                partes.add(temp[1]);
            }
         }
-        
         return partes;
     }
-    
-    public Vector<String> separarVariables(String linea){
+       
+    /**
+     * Obtiene el nombre y valor de las variables, las cuales deben estar en el siguiente formato
+     * var tipo valor
+     */
+    public Variable getVariable(String linea, int direccion) throws InstruccionException{
+        Vector<String> partesTemp = this.quitarEspacios(linea);
         
+        //se comprueba que al menos sean 3 operandos
+        if(partesTemp.size() < 3)
+            throw new InstruccionException("Instruccion no valida");
+        Vector<String> partes = new Vector<String>();
+        
+        //parte inicial
+        partes.add(partesTemp.get(0));
+        
+        //tipo de la variable
+        partes.add(partesTemp.get(1));
+        
+        //Agregamos la ultima parte
+        partes.add(partesTemp.get(2));
+        //Se crea una sola parte en caso de que haya varios espacios
+        for(int x = 3; x < partesTemp.size(); x++)
+            partes.set(2, partes.get(2) + partesTemp.get(x));
+        
+        String[] valores = partes.get(2).split(",");
+        
+        Variable variable = new Variable(partes.get(0), partes.get(1), StringUtils.arrayToVector(valores), direccion);
+
+        return variable;
     }
     
     /**
+     * TODO no terminado
      * Este metodo extrae el nombre de las variables y su tipo, del segmento de codigo
      */
     public Vector<Variable> getVariables() throws SegmentNotFoundException{
         Vector<Variable> variables = new Vector<Variable>();
+        
         //Se obtiene el segmento de datos
         Vector<String> segmentoDatos = this.getVectorSegment(Ensamblador.DATA_SEGMENT);
         
-        Vector<String> varTemp = new Vector<String>();
         for(String linea : segmentoDatos){
-            varTemp = this.quitarEspacios(linea);
+            if(linea.contains(EQU)) continue;
+            try {
+                variables.add(this.getVariable(linea, 3));
+            } catch (InstruccionException ex) {
+                ex.printStackTrace();
+            }
  //           variables = new Variable(varTemp[]);
         }
-        return null;
+        return variables;
     }
     
+    
+    
     public static void main(String[] arg){
+        ParserAssembly parser = new ParserAssembly("");
+        Vector<String> valores = new Vector<String>();
+        try {
+            
+            Variable variable = parser.getVariable("var db a,   b, c,w,  qw   ", 34);
+            Vector<String> s = variable.getValores();
+            for(String d : s)
+                System.out.print(d+"///");
+            System.out.println("\n"+variable.getNombre());
+            System.out.println("\n"+variable.getTipo());
+                    
+        } catch (InstruccionException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
+/**    public static void main(String[] arg){
         String cadena = ",bx";
         String cadena1 = "   una cadena  con varios   espacios    ;";
         
@@ -227,4 +281,5 @@ public class ParserAssembly implements Parser {
         for(String s : vars)
             System.out.print(s+"///");
     }
+ */
 }

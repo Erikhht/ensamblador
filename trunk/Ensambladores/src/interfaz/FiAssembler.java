@@ -19,8 +19,9 @@ import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import util.StringUtils;
 import static core.Ensamblador.*;
+import core.simbolos.variables.Variable;
+import java.util.Vector;
 
 /**
  *
@@ -68,6 +69,7 @@ public class FiAssembler extends javax.swing.JFrame {
             jButton1 = new javax.swing.JButton();
             jButton2 = new javax.swing.JButton();
             jButton4 = new javax.swing.JButton();
+            jButton5 = new javax.swing.JButton();
             jInternalFrame3 = new javax.swing.JInternalFrame();
             jScrollPane3 = new javax.swing.JScrollPane();
             jTSimbolos = new javax.swing.JTable();
@@ -168,6 +170,15 @@ public class FiAssembler extends javax.swing.JFrame {
             });
 
             jToolBar1.add(jButton4);
+
+            jButton5.setText("Variables");
+            jButton5.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton5ActionPerformed(evt);
+                }
+            });
+
+            jToolBar1.add(jButton5);
 
             org.jdesktop.layout.GroupLayout jInternalFrame2Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame2.getContentPane());
             jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
@@ -301,6 +312,19 @@ public class FiAssembler extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            Vector<Variable> variables = this.ensamblador.getParser().getVariables();
+            String nombres = "";
+            for(Variable s : variables)
+                nombres += s.getNombre()+","+s.getTipo()+"\n" ;
+            this.jTASegmentos.setText(nombres);
+        } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        this.segmentSelected(STACK_SEGMENT);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -420,6 +444,7 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jIFSegmentos;

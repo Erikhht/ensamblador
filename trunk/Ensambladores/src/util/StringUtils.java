@@ -18,7 +18,7 @@ import java.util.Vector;
  */
 public class StringUtils {
     
-   public static String vectorString(Vector<String> lineas){
+   public static String vectorToString(Vector<String> lineas){
        Object[] lineasCodigo = lineas.toArray();
        String codigo = "";
        for(int x = 0; x < lineasCodigo.length; x++){
@@ -28,6 +28,13 @@ public class StringUtils {
        }
        
        return codigo;
+   }
+   
+   public static Vector<String> arrayToVector(String[] arreglo){
+       Vector<String> vector = new Vector<String>();
+       for(String a : arreglo)
+           vector.add(a);
+       return vector;
    }
     
 }
