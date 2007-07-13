@@ -26,10 +26,10 @@ public class Variable {
     private int direccion;
 
     /** Crea una nueva instancia de Variable */
-    public Variable(String nombre, String tipo, Vector valor, int direccion) {
+    public Variable(String nombre, String tipo, Vector<String> valores, int direccion) {
         this.nombre = nombre;
         this.tipo = tipo;
-        this.valores = valor;
+        this.valores = valores;
         this.direccion = direccion;
     }
     
@@ -39,7 +39,7 @@ public class Variable {
     public String getTipo(){
         return tipo;
     }
-    public Vector<String> getValue(){
+    public Vector<String> getValores(){
         return valores;
     }
     public int getDireccion(){
