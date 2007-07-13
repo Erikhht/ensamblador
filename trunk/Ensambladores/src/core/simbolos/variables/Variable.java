@@ -23,10 +23,10 @@ public class Variable {
     private String tipo;
     /**Vector con los valores de inicializacion de la variable*/
     private Vector<String> valores = new Vector<String>();
-    private String direccion;
+    private int direccion;
 
     /** Crea una nueva instancia de Variable */
-    public Variable(String nombre, String tipo, Vector valor,String direccion) {
+    public Variable(String nombre, String tipo, Vector valor, int direccion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.valores = valor;
@@ -42,11 +42,11 @@ public class Variable {
     public Vector<String> getValue(){
         return valores;
     }
-    public String getDireccion(){
+    public int getDireccion(){
         return direccion;
     }         
     
-    public void setDireccion(String direccion){
+    public void setDireccion(int direccion){
         this.direccion = direccion;
     }
     
