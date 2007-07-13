@@ -3,6 +3,7 @@ package util;
 import java.util.Vector;
 
 public class Parser {
+    
     String[] aux = new String[100];   
     String[] aux1 = new String[100]; 
     Vector<String[]> todo = new Vector<String[]>();
@@ -22,6 +23,7 @@ public class Parser {
     int fin_code=0;
     int ban1=0;
     int ban2=0;
+    
     public Parser(String m) {     
         aux=m.split("/n");
         
@@ -105,13 +107,13 @@ public class Parser {
         }    
     }     
     
-    public Vector getStack(){
+    public Vector<String> getStack(){
         return stacks;
     }
-    public Vector getData(){
+    public Vector<String> getData(){
         return datas;
     }
-    public Vector getcode(){
+    public Vector<String> getcode(){
         return codes;
     }
     

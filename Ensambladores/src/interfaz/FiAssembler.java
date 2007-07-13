@@ -10,14 +10,15 @@
 package interfaz;
 
 import archivo.*;
+import core.*;
 import excepciones.NumeroColumnasDiferenteException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.beans.PropertyVetoException;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import util.StringUtils;
 
 /**
  *
@@ -57,13 +58,14 @@ public class FiAssembler extends javax.swing.JFrame {
             jIFCodigoAsm = new javax.swing.JInternalFrame();
             jScrollPane1 = new javax.swing.JScrollPane();
             jTACodigoAsm = new javax.swing.JTextArea();
-            jInternalFrame1 = new javax.swing.JInternalFrame();
+            jIFSegmentos = new javax.swing.JInternalFrame();
             jScrollPane2 = new javax.swing.JScrollPane();
-            jTextArea1 = new javax.swing.JTextArea();
+            jTASegmentos = new javax.swing.JTextArea();
             jInternalFrame2 = new javax.swing.JInternalFrame();
             jToolBar1 = new javax.swing.JToolBar();
             jButton1 = new javax.swing.JButton();
             jButton2 = new javax.swing.JButton();
+            jButton4 = new javax.swing.JButton();
             jInternalFrame3 = new javax.swing.JInternalFrame();
             jScrollPane3 = new javax.swing.JScrollPane();
             jTSimbolos = new javax.swing.JTable();
@@ -107,50 +109,69 @@ public class FiAssembler extends javax.swing.JFrame {
             jIFCodigoAsm.setBounds(10, 80, 470, 310);
             jDesktopPane1.add(jIFCodigoAsm, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-            jInternalFrame1.setIconifiable(true);
-            jInternalFrame1.setMaximizable(true);
-            jInternalFrame1.setResizable(true);
-            jInternalFrame1.setVisible(true);
-            jTextArea1.setColumns(20);
-            jTextArea1.setRows(5);
-            jScrollPane2.setViewportView(jTextArea1);
+            jIFSegmentos.setIconifiable(true);
+            jIFSegmentos.setMaximizable(true);
+            jIFSegmentos.setResizable(true);
+            jIFSegmentos.setVisible(true);
+            jTASegmentos.setColumns(20);
+            jTASegmentos.setRows(5);
+            jScrollPane2.setViewportView(jTASegmentos);
 
-            org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
-            jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-            jInternalFrame1Layout.setHorizontalGroup(
-                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame1Layout.createSequentialGroup()
+            org.jdesktop.layout.GroupLayout jIFSegmentosLayout = new org.jdesktop.layout.GroupLayout(jIFSegmentos.getContentPane());
+            jIFSegmentos.getContentPane().setLayout(jIFSegmentosLayout);
+            jIFSegmentosLayout.setHorizontalGroup(
+                jIFSegmentosLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jIFSegmentosLayout.createSequentialGroup()
                     .addContainerGap()
                     .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                     .addContainerGap())
             );
-            jInternalFrame1Layout.setVerticalGroup(
-                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame1Layout.createSequentialGroup()
+            jIFSegmentosLayout.setVerticalGroup(
+                jIFSegmentosLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jIFSegmentosLayout.createSequentialGroup()
                     .addContainerGap()
                     .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                     .addContainerGap())
             );
-            jInternalFrame1.setBounds(10, 400, 470, 190);
-            jDesktopPane1.add(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            jIFSegmentos.setBounds(10, 400, 470, 190);
+            jDesktopPane1.add(jIFSegmentos, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
             jInternalFrame2.setVisible(true);
             jToolBar1.setFloatable(false);
             jToolBar1.setRollover(true);
-            jButton1.setText("Ensamblar");
+            jButton1.setText("Data Segment");
+            jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+
             jToolBar1.add(jButton1);
 
-            jButton2.setText("Mas");
+            jButton2.setText("Code Segment");
             jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
+
             jToolBar1.add(jButton2);
+
+            jButton4.setText("Stack Segment");
+            jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton4ActionPerformed(evt);
+                }
+            });
+
+            jToolBar1.add(jButton4);
 
             org.jdesktop.layout.GroupLayout jInternalFrame2Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame2.getContentPane());
             jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
             jInternalFrame2Layout.setHorizontalGroup(
                 jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame2Layout.createSequentialGroup()
-                    .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(326, Short.MAX_VALUE))
+                .add(jToolBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
             );
             jInternalFrame2Layout.setVerticalGroup(
                 jInternalFrame2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -278,6 +299,43 @@ public class FiAssembler extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       this.segmentSelected("pila");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.segmentSelected("codigo");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       this.segmentSelected("datos");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void segmentSelected(String segment){
+        String segmentoLeido = "";
+        String titulo = "";
+        if(segment.equals("pila")){
+           segmentoLeido = this.ensamblador.getStackSegment();
+           titulo = "Segmento de pila";
+        }else if(segment.equals("datos")){
+            segmentoLeido = this.ensamblador.getDataSegment();
+            titulo = "Segmento de datos";
+        }else if(segment.equals("codigo")){
+            segmentoLeido = this.ensamblador.getCodeSegment();
+            titulo = "Segmento de c—digo";
+        }
+        
+        this.jTASegmentos.setText(segmentoLeido);
+        this.jIFSegmentos.setTitle(titulo);
+        
+        try {
+            
+            this.jIFSegmentos.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.llenarTablaSimbolos();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -294,7 +352,7 @@ public class FiAssembler extends javax.swing.JFrame {
      */
     private void jMIAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAbrirActionPerformed
         this.gestor.showOpenDialog();
-            this.mostrarCodigo();
+        this.mostrarCodigo();
     }//GEN-LAST:event_jMIAbrirActionPerformed
 
     public void llenarTablaSimbolos(){
@@ -315,6 +373,8 @@ public class FiAssembler extends javax.swing.JFrame {
     private void mostrarCodigo(){
         try {
             this.gestor.leerArchivo();
+            //Creacion del ensamblador a partir del codigo fuente cargado
+            this.ensamblador = new Ensamblador(this.gestor.getArhivoString());
             this.jIFCodigoAsm.setTitle("C—digo Fuente - "+this.gestor.getArchivo().getName());
             this.jIFCodigoAsm.setSelected(true);
             this.jTACodigoAsm.setText(this.gestor.getArhivoString());
@@ -347,20 +407,22 @@ public class FiAssembler extends javax.swing.JFrame {
             }
         });
     }
-    
+   
+    private Ensamblador ensamblador;
     private GestorDatosTabla gestorSimbolos;
     private GestorArchivos gestor;
-    private static final int DEFAULT_WIDTH = 1160;
-    private static final int DEFAULT_HEIGHT = 640;
+    private static final int DEFAULT_WIDTH = 875;
+    private static final int DEFAULT_HEIGHT = 620;
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
-    private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JInternalFrame jIFSegmentos;
     private javax.swing.JInternalFrame jInternalFrame2;
     private javax.swing.JInternalFrame jInternalFrame3;
     private javax.swing.JInternalFrame jInternalFrame4;
@@ -375,8 +437,8 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTACodigoAsm;
+    private javax.swing.JTextArea jTASegmentos;
     private javax.swing.JTable jTSimbolos;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     

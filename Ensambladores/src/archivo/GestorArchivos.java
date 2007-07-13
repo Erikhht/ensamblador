@@ -80,4 +80,6 @@ public class GestorArchivos extends JFileChooser{
     public String getArhivoString(){
         return this.archivoString;
     }
+    
+    
 }
