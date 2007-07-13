@@ -172,7 +172,8 @@ public class ParserAssembly implements Parser {
                partes.add(partesTemp.get(3));
            }else if(partesTemp.get(2).contains(",")){
                temp = partesTemp.get(2).split(",");
-               partes.add(temp[0]);
+               partes.add(partesTemp.get(1));
+               partes.add(temp[1]);
            }
         }
         
@@ -196,7 +197,7 @@ public class ParserAssembly implements Parser {
     }
     
     public static void main(String[] arg){
-        String cadena = ",";
+        String cadena = ",bx";
         String cadena1 = "   una cadena  con varios   espacios    ;";
         
 //        ParserAssembly parser = new ParserAssembly("");
@@ -215,7 +216,7 @@ public class ParserAssembly implements Parser {
         Vector<String> palabras = parser.quitarEspacios(cadena);
         Vector<String> vars = new Vector<String>();
         try {
-            vars = parser.separarTresOperandos("mov ax  ,bx");
+            vars = parser.separarTresOperandos("mov ax,bx");
         } catch (InstruccionException ex) {
             ex.printStackTrace();
         }
