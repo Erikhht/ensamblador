@@ -10,6 +10,7 @@
 
 package core.simbolos;
 
+import core.simbolos.variables.Variable;
 import java.util.Vector;
 
 /**
@@ -18,7 +19,8 @@ import java.util.Vector;
  */
 public class SegmentoDatos {
     
-    private Vector<String> variables;
+    private Vector<Variable> variables;
+    
     /** Crea una nueva instancia de SegmentoDatos */
     public SegmentoDatos() {
     }
