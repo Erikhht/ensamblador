@@ -65,32 +65,6 @@ public class Parser {
         return lineasSegmento;
     }
     
-    /**
-     * Metodo auxiliar que no usa atributos de la clase
-     */
-//    public Vector<String> getSegment(String archivoLineas, String inicioSegmento, String finSegmento){
-//        Vector<String> lineas = this.quitarSaltosLinea(archivoLineas);
-//        int posInicioSegmento = 0;
-//        int posFinSegmento = 0;
-//        for(int x = 0; x < lineas.size(); x++){
-//            if(lineas.get(x).contains(inicioSegmento)){
-//                posInicioSegmento = x + 1;
-//                break;
-//            }
-//        }
-//        
-//        for(int x = posInicioSegmento + 1; x < lineas.size(); x++){
-//            if(lineas.get(x).contains(finSegmento)){
-//                posFinSegmento = x - 1;
-//                break;
-//            }
-//        }
-//        
-//        Vector<String> lineasSegmento = this.extraerSegmento(posInicioSegmento, posFinSegmento);
-//        return lineasSegmento;
-//        
-//    }
-    
     public Vector<String> extraerSegmento(int inicioSegmento, int finSegmento){
         Vector<String> segmento = new Vector<String>();
         for(int x = inicioSegmento; x <= finSegmento; x++)

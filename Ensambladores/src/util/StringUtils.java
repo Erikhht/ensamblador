@@ -21,8 +21,11 @@ public class StringUtils {
    public static String vectorString(Vector<String> lineas){
        Object[] lineasCodigo = lineas.toArray();
        String codigo = "";
-       for(Object linea : lineasCodigo)
-           codigo +=(String)linea + "\n";
+       for(int x = 0; x < lineasCodigo.length; x++){
+           if( x == lineasCodigo.length - 1)
+               codigo +=(String)lineasCodigo[x];
+           else codigo +=(String)lineasCodigo[x] + "\n";
+       }
        
        return codigo;
    }
