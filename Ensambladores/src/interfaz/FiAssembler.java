@@ -23,6 +23,7 @@ import static core.Ensamblador.*;
 import core.simbolos.constantes.Constante;
 import core.simbolos.variables.Variable;
 import java.util.Vector;
+import util.StringUtils;
 
 /**
  *
@@ -36,8 +37,16 @@ public class FiAssembler extends javax.swing.JFrame {
         
         this.gestor = new GestorArchivos(this);
         
-        this.gestorSimbolos = new GestorDatosTabla(this.jTSimbolos);
-        this.gestorSimbolos.setEncabezados("Nombre", "Tipo", "Valor", "Descripcion");
+        this.gestorTablaVariables = new GestorDatosTabla(this.jTVariables);
+        this.gestorTablaComen = new GestorDatosTabla(this.jTComent);
+        this.gestorTablaEtiq = new GestorDatosTabla(this.jTEtiquetas);
+        this.gestorTablaConst = new GestorDatosTabla(this.jTConst);
+        
+        this.gestorTablaVariables.setEncabezados("Nombre", "Tipo", "Valor", "Direccion");
+        this.gestorTablaComen.setEncabezados("Comentario");
+        this.gestorTablaEtiq.setEncabezados("Nombre", "Direccion");
+        this.gestorTablaConst.setEncabezados("Nombre", "Valor");
+        
     }
     
     /** This method is called from within the constructor to
@@ -74,10 +83,19 @@ public class FiAssembler extends javax.swing.JFrame {
             jButton6 = new javax.swing.JButton();
             jButton7 = new javax.swing.JButton();
             jInternalFrame3 = new javax.swing.JInternalFrame();
+            jTabbedPane1 = new javax.swing.JTabbedPane();
             jScrollPane3 = new javax.swing.JScrollPane();
-            jTSimbolos = new javax.swing.JTable();
+            jTVariables = new javax.swing.JTable();
+            jScrollPane5 = new javax.swing.JScrollPane();
+            jTConst = new javax.swing.JTable();
+            jScrollPane6 = new javax.swing.JScrollPane();
+            jTComent = new javax.swing.JTable();
+            jScrollPane4 = new javax.swing.JScrollPane();
+            jTEtiquetas = new javax.swing.JTable();
             jInternalFrame4 = new javax.swing.JInternalFrame();
+            jToolBar2 = new javax.swing.JToolBar();
             jButton3 = new javax.swing.JButton();
+            jButton8 = new javax.swing.JButton();
             jMenuBar1 = new javax.swing.JMenuBar();
             jMenu1 = new javax.swing.JMenu();
             jMIAbrir = new javax.swing.JMenuItem();
@@ -219,8 +237,9 @@ public class FiAssembler extends javax.swing.JFrame {
             jInternalFrame3.setIconifiable(true);
             jInternalFrame3.setMaximizable(true);
             jInternalFrame3.setResizable(true);
+            jInternalFrame3.setTitle("Tabla de S\u00edmbolos");
             jInternalFrame3.setVisible(true);
-            jTSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+            jTVariables.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                     {null, null, null, null},
                     {null, null, null, null},
@@ -231,53 +250,97 @@ public class FiAssembler extends javax.swing.JFrame {
                     "Title 1", "Title 2", "Title 3", "Title 4"
                 }
             ));
-            jTSimbolos.setEnabled(false);
-            jScrollPane3.setViewportView(jTSimbolos);
+            jTVariables.setCellSelectionEnabled(true);
+            jTVariables.setEnabled(false);
+            jScrollPane3.setViewportView(jTVariables);
+
+            jTabbedPane1.addTab("Variables", jScrollPane3);
+
+            jTConst.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jTConst.setEnabled(false);
+            jScrollPane5.setViewportView(jTConst);
+
+            jTabbedPane1.addTab("Constantes", jScrollPane5);
+
+            jTComent.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jTComent.setEnabled(false);
+            jScrollPane6.setViewportView(jTComent);
+
+            jTabbedPane1.addTab("Comentarios", jScrollPane6);
+
+            jTEtiquetas.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jTEtiquetas.setEnabled(false);
+            jScrollPane4.setViewportView(jTEtiquetas);
+
+            jTabbedPane1.addTab("Etiquetas", jScrollPane4);
 
             org.jdesktop.layout.GroupLayout jInternalFrame3Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame3.getContentPane());
             jInternalFrame3.getContentPane().setLayout(jInternalFrame3Layout);
             jInternalFrame3Layout.setHorizontalGroup(
                 jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame3Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                    .addContainerGap())
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             );
             jInternalFrame3Layout.setVerticalGroup(
                 jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame3Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                    .addContainerGap())
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             );
             jInternalFrame3.setBounds(490, 10, 370, 290);
             jDesktopPane1.add(jInternalFrame3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
             jInternalFrame4.setVisible(true);
             jButton3.setText("llenar");
-            jButton3.addActionListener(new java.awt.event.ActionListener() {
+            jToolBar2.add(jButton3);
+
+            jButton8.setText("Mostrar Contador");
+            jButton8.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton3ActionPerformed(evt);
+                    jButton8ActionPerformed(evt);
                 }
             });
+
+            jToolBar2.add(jButton8);
 
             org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
             jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
             jInternalFrame4Layout.setHorizontalGroup(
                 jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jButton3)
-                    .addContainerGap(214, Short.MAX_VALUE))
+                .add(jToolBar2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
             );
             jInternalFrame4Layout.setVerticalGroup(
                 jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jInternalFrame4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jButton3)
-                    .addContainerGap(27, Short.MAX_VALUE))
+                .add(jToolBar2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
             );
-            jInternalFrame4.setBounds(490, 310, 310, 90);
+            jInternalFrame4.setBounds(490, 310, 350, 60);
             jDesktopPane1.add(jInternalFrame4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
             jMenu1.setText("Archivo");
@@ -333,6 +396,53 @@ public class FiAssembler extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
+    private void llenarTablasSimbolos(){
+        //Llenado de la tabla de variables
+        try {
+            Vector<Variable> variables = this.ensamblador.getParser().establecerContadorDataSegment();;
+            for(Variable v : variables)
+                this.gestorTablaVariables.addRenglon(v.getNombre(), v.getTipo().toString(), StringUtils.vectorToLinearString(v.getValores()), v.getHexDireccion());
+        } catch (NumeroColumnasDiferenteException ex) {
+            ex.printStackTrace();
+        } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
+        //Llenado de la tabla de constantes
+        try {
+            Vector<Constante> constantes = this.ensamblador.getParser().getConstantes();
+            for(Constante c : constantes)
+                this.gestorTablaConst.addRenglon(c.getNombre(), c.getValor());
+        } catch (NumeroColumnasDiferenteException ex) {
+            ex.printStackTrace();
+        }
+         
+        //Llenado de la tabla de Comentarios
+        try {
+            Vector<String> comentarios = this.ensamblador.getParser().getComentarios();
+            for(String s : comentarios)
+                this.gestorTablaComen.addRenglon(s);
+        } catch (NumeroColumnasDiferenteException ex) {
+            ex.printStackTrace();
+        }
+        
+        this.repaint();
+    }
+    
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        
+        try {
+            Vector<Variable> variables = this.ensamblador.getParser().establecerContadorDataSegment();
+            Vector<String> n = new Vector<String>();
+            for(Variable v : variables)
+                n.add("//"+v.getDireccion()+"//") ;
+            this.imprimirEnTextArea(n);
+        } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         Vector<Constante> constante = this.ensamblador.getParser().getConstantes();
         Vector<String> nombres = new Vector<String>();
@@ -348,8 +458,14 @@ public class FiAssembler extends javax.swing.JFrame {
         try {
             Vector<Variable> variables = this.ensamblador.getParser().getVariables();
             String nombres = "";
-            for(Variable s : variables)
+            String valores = "";
+            for(Variable s : variables){
+                valores = "";
                 nombres += s.getNombre()+","+s.getTipo()+"\n" ;
+                for(String str : s.getValores())
+                    valores += str+"//";
+                System.out.println(valores);
+            }
             this.jTASegmentos.setText(nombres);
         } catch (SegmentNotFoundException ex) {
             ex.printStackTrace();
@@ -403,10 +519,6 @@ public class FiAssembler extends javax.swing.JFrame {
         }
     }
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.llenarTablaSimbolos();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(this.gestor.getArchivo() != null)
             this.mostrarCodigo();
@@ -422,12 +534,13 @@ public class FiAssembler extends javax.swing.JFrame {
         this.mostrarCodigo();
     }//GEN-LAST:event_jMIAbrirActionPerformed
 
+    //Ejemplo para llenar una JTable
     public void llenarTablaSimbolos(){
-        this.gestorSimbolos.setEncabezados("Nueva columna", "Nueva imagen", "todo nuevo");
+        this.gestorTablaVariables.setEncabezados("Nueva columna", "Nueva imagen", "todo nuevo");
 
         for (int i = 0; i < 10; i++) {
             try {
-                this.gestorSimbolos.addRenglon("Datos", "mas", "jeje");
+                this.gestorTablaVariables.addRenglon("Datos", "mas", "jeje");
             } catch (NumeroColumnasDiferenteException ex) {
                 ex.printStackTrace();
             }
@@ -446,6 +559,10 @@ public class FiAssembler extends javax.swing.JFrame {
             this.jIFCodigoAsm.setTitle("C—digo Fuente - "+this.gestor.getArchivo().getName());
             this.jIFCodigoAsm.setSelected(true);
             this.jTACodigoAsm.setText(this.gestor.getArhivoString());
+            
+            //Se llena la talb de simbolos correspondiente
+            this.llenarTablasSimbolos();
+            
         } catch (PropertyVetoException ex) {
             ex.printStackTrace();
         } catch (FileNotFoundException ex) {
@@ -477,7 +594,12 @@ public class FiAssembler extends javax.swing.JFrame {
     }
    
     private Ensamblador ensamblador;
-    private GestorDatosTabla gestorSimbolos;
+    
+    private GestorDatosTabla gestorTablaComen;
+    private GestorDatosTabla gestorTablaEtiq;
+    private GestorDatosTabla gestorTablaConst;
+    private GestorDatosTabla gestorTablaVariables;
+    
     private GestorArchivos gestor;
     private static final int DEFAULT_WIDTH = 875;
     private static final int DEFAULT_HEIGHT = 620;
@@ -491,6 +613,7 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jIFSegmentos;
@@ -507,10 +630,18 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextArea jTACodigoAsm;
     private javax.swing.JTextArea jTASegmentos;
-    private javax.swing.JTable jTSimbolos;
+    private javax.swing.JTable jTComent;
+    private javax.swing.JTable jTConst;
+    private javax.swing.JTable jTEtiquetas;
+    private javax.swing.JTable jTVariables;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
     
 }
