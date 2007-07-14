@@ -18,6 +18,7 @@ import core.simbolos.Variable;
 import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
 import excepciones.SimboloNotFoundException;
+import java.util.Vector;
 
 
 /**
@@ -45,6 +46,15 @@ public class Ensamblador {
     
     public ParserAssembly getParser(){
         return this.parser;
+    }
+    
+    public Vector<String> Generar() throws SegmentNotFoundException, InstruccionException, SimboloNotFoundException{
+        Vector<String> code =new Vector<String>();
+        Vector<Instruccion> instrucciones = this.parser.getInstrucciones();
+        for(int i=0;i<instrucciones.size();i++){            
+            code.add(this.code(instrucciones.get(i)));
+        }
+        return code;
     }
     
     public String code(Instruccion inst) throws SimboloNotFoundException{
