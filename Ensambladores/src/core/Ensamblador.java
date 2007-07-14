@@ -51,6 +51,7 @@ public class Ensamblador {
         String codificacion = getCode(inst);
         String op1=inst.getOperando1();
         String op2=inst.getOperando2();
+        Variable var;
         
         //********************REMPLAZO DE W *************************************
         if(codificacion.contains("w")){
@@ -93,6 +94,12 @@ public class Ensamblador {
         if(codificacion.contains("Inm")){
             codificacion.replace("Inm",op2);
         }
+         //************** DESPLAZAMIENTO DE DESP ******************************
+        if(codificacion.contains("desp")){
+            codificacion.replace("desp",var.getHexDireccion());
+        }
+        
+        
         
         int hexa=Integer.parseInt(codificacion);
         codificacion = Integer.toHexString(hexa);       
