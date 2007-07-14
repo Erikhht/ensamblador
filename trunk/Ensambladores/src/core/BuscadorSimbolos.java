@@ -28,15 +28,10 @@ public class BuscadorSimbolos {
     /**
      * Creates a new instance of BuscadorSimbolos
      */
-    public BuscadorSimbolos(Vector<Variable> var, Vector<Constante> constantes) {
+    public BuscadorSimbolos(Vector<Variable> var, Vector<Constante> constantes, Vector<Instruccion> instrucciones) {
         this.variables = var;
         this.constantes = constantes;
-    }
-    
-    public BuscadorSimbolos(Variable... var){
-        this.variables = new Vector<Variable>();
-        for(Variable v : var)
-            this.variables.add(v);
+        this.instrucciones = instrucciones;
     }
     
     public Variable buscarVariable(String nombre) throws SimboloNotFoundException{
