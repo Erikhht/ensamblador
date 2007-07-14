@@ -41,13 +41,14 @@ public class FiAssembler extends javax.swing.JFrame {
         
         this.gestorTablaVariables = new GestorDatosTabla(this.jTVariables);
         this.gestorTablaComen = new GestorDatosTabla(this.jTComent);
-        this.gestorTablaEtiq = new GestorDatosTabla(this.jTEtiquetas);
         this.gestorTablaConst = new GestorDatosTabla(this.jTConst);
+        this.gestorTablaInstruc = new GestorDatosTabla(this.jTIntruc);
         
         this.gestorTablaVariables.setEncabezados("Nombre", "Tipo", "Valor", "Direccion");
         this.gestorTablaComen.setEncabezados("Comentario");
         this.gestorTablaEtiq.setEncabezados("Nombre", "Direccion");
         this.gestorTablaConst.setEncabezados("Nombre", "Valor");
+        this.gestorTablaInstruc.setEncabezados("Nombre", "Primer Operando", "Segundo Operando");
         
     }
     
@@ -92,8 +93,8 @@ public class FiAssembler extends javax.swing.JFrame {
             jTConst = new javax.swing.JTable();
             jScrollPane6 = new javax.swing.JScrollPane();
             jTComent = new javax.swing.JTable();
-            jScrollPane4 = new javax.swing.JScrollPane();
-            jTEtiquetas = new javax.swing.JTable();
+            jScrollPane7 = new javax.swing.JScrollPane();
+            jTIntruc = new javax.swing.JTable();
             jInternalFrame4 = new javax.swing.JInternalFrame();
             jToolBar2 = new javax.swing.JToolBar();
             jButton3 = new javax.swing.JButton();
@@ -291,7 +292,7 @@ public class FiAssembler extends javax.swing.JFrame {
 
             jTabbedPane1.addTab("Comentarios", jScrollPane6);
 
-            jTEtiquetas.setModel(new javax.swing.table.DefaultTableModel(
+            jTIntruc.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                     {null, null, null, null},
                     {null, null, null, null},
@@ -302,10 +303,11 @@ public class FiAssembler extends javax.swing.JFrame {
                     "Title 1", "Title 2", "Title 3", "Title 4"
                 }
             ));
-            jTEtiquetas.setEnabled(false);
-            jScrollPane4.setViewportView(jTEtiquetas);
+            jTIntruc.setCellSelectionEnabled(true);
+            jTIntruc.setEnabled(false);
+            jScrollPane7.setViewportView(jTIntruc);
 
-            jTabbedPane1.addTab("Etiquetas", jScrollPane4);
+            jTabbedPane1.addTab("Instrucciones", jScrollPane7);
 
             org.jdesktop.layout.GroupLayout jInternalFrame3Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame3.getContentPane());
             jInternalFrame3.getContentPane().setLayout(jInternalFrame3Layout);
@@ -453,8 +455,21 @@ public class FiAssembler extends javax.swing.JFrame {
         } catch (NumeroColumnasDiferenteException ex) {
             ex.printStackTrace();
         }
-        
-        this.repaint();
+        try {
+            
+            //Llenado de la tabla de instrucciones
+            Vector<Instruccion> instrucciones = this.ensamblador.getParser().getInstrucciones();
+            for(Instruccion s : instrucciones)
+                    this.gestorTablaInstruc.addRenglon(s.getNombre(), s.getOperando1(), s.getOperando2());
+            
+            this.repaint();
+        } catch (InstruccionException ex) {
+            ex.printStackTrace();
+        } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (NumeroColumnasDiferenteException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -597,6 +612,8 @@ public class FiAssembler extends javax.swing.JFrame {
             this.mostrarError("Tipo de archivo no valido", "Aviso");
         } catch (IOException ex) {
             ex.printStackTrace();
+        }catch(SegmentNotFoundException ex){
+            ex.printStackTrace();
         }
     }
     
@@ -627,6 +644,7 @@ public class FiAssembler extends javax.swing.JFrame {
     private GestorDatosTabla gestorTablaEtiq;
     private GestorDatosTabla gestorTablaConst;
     private GestorDatosTabla gestorTablaVariables;
+    private GestorDatosTabla gestorTablaInstruc;
     
     private GestorArchivos gestor;
     private static final int DEFAULT_WIDTH = 875;
@@ -659,14 +677,14 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTextArea jTACodigoAsm;
     private javax.swing.JTextArea jTASegmentos;
     private javax.swing.JTable jTComent;
     private javax.swing.JTable jTConst;
-    private javax.swing.JTable jTEtiquetas;
+    private javax.swing.JTable jTIntruc;
     private javax.swing.JTable jTVariables;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
