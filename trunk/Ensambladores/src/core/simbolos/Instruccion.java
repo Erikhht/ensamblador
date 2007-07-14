@@ -10,7 +10,7 @@
 
 package core.simbolos;
 
-import java.util.Vector;
+import core.ParserAssembly;
 
 /**
  *
@@ -18,13 +18,18 @@ import java.util.Vector;
  */
 public class Instruccion {
     
+    public static final int OP1 = 1;
+    public static final int OP2 = 2;
+    
     private String nombre;
-    private Vector<String> parametros;
-    private String Operando1;
-    private String Operando2;
+    private String operando1;
+    private String operando2;
     
     /** Crea una nueva instancia de Instruccion */
-    public Instruccion() {
+    public Instruccion(String nombre, String op1, String op2) {
+        this.nombre = nombre;
+        this.operando1 = op1;
+        this.operando2 = op2;
     }
 
     public String getNombre() {
@@ -34,21 +39,35 @@ public class Instruccion {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public Vector<String> getParametros() {
-        return parametros;
-    }
     
     public String getOperando1(){
-        return Operando1;
+        return operando1;
     }
     
     public String getOperando2(){
-        return Operando2;
-    }
-
-    public void setParametros(Vector<String> parametros) {
-        this.parametros = parametros;
+        return operando2;
     }
     
+    /**
+     * Si el operando es un digito, lo devuelve en su forma hexadecimal
+     * Dicho digito, debe estar en base 10
+     */
+    public String getOpHex(int op){
+        String operando = "";
+        if(op == OP1)   operando = this.operando1;
+        else if(op == OP2)  operando = this.operando2;
+        
+        int numero = ParserAssembly.hexaToInt(operando);
+        return Integer.toHexString(numero);
+    }
+    
+    public String getOpBin(int op){
+        String operando = "";
+        if(op == OP1)   operando = this.operando1;
+        else if(op == OP2)  operando = this.operando2;
+        
+        int numero = ParserAssembly.hexaToInt(operando);
+        return Integer.toBinaryString(numero);
+    }
+
 }
