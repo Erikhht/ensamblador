@@ -10,6 +10,10 @@
 
 package core;
 
+import codificaciones.CampoReg;
+import codificaciones.ModRm;
+import core.simbolos.Instruccion;
+
 /**
  *
  * @author Victor Hugo Perez Alvarado
@@ -24,25 +28,73 @@ public class Ensamblador {
     /** Crea una nueva instancia de Ensamblador */
     public Ensamblador(String codigo) {
         this.parser = new ParserAssembly(codigo);
-    }
+    }  
     
     public Ensamblador(ParserAssembly parser){
         this.parser = parser;
-    }
+    }    
     
     public Ensamblador(){
         
-    }
+    }    
     
     public ParserAssembly getParser(){
         return this.parser;
     }
     
+    public void code(Instruccion inst){
+        ModRm mod = new ModRm();  
+        String[] mod1=mod.getModRm();
+        CampoReg reg = new CampoReg();
+        String[] reg1 = reg.getReg();
+        String[] reg3 = reg.getRegs3();
+        String codificacion = getCode(inst);
+        String op1=inst.getOperando1();
+        String op2=inst.getOperando2();
+        
+        //********************REMPLAZO DE W *************************************
+        if(codificacion.contains("w")){
+           if(op1.equals("ax")||op1.equals("bx")||op1.equals("cx")||op1.equals("dx")){
+               codificacion.replace("w","1");
+           }else{
+               codificacion.replace("w","0");
+           }
+        }
+        
+        //********************* REMPLAZO DE MOD ***********************************
+        if(codificacion.contains("mod")){
+            for(int i=0;i<mod1.length;i++){
+                if(mod1[i].equals(op1)){
+                    codificacion.replace("mod",mod1[i+1]);
+                    codificacion.replace("r/m",mod1[i+2]);
+                }
+            }
+        }
+        
+        //********************** REMPLAZO DE REG ********************************
+        if(codificacion.contains("reg")){
+            for(int i=0;i<reg1.length;i++){
+                if(reg1[i].equals(op1)){
+                    codificacion.replace("reg",reg1[i+1]);
+                }
+            }
+        }
+        if(codificacion.contains("regs3")){
+            for(int i=0;i<reg3.length;i++){
+                if(reg3[i].equals(op1)){
+                    codificacion.replace("regs3",reg3[i+1]);
+                }
+            }
+        }
+        
+       
+    }    
+    
     public String getCode(Instruccion inst){
         String name;
         String ope1;
         String ope2;
-        String code;
+        String code=null;
         name=inst.getNombre();  
         ope1=inst.getOperando1();
         ope2=inst.getOperando2();
