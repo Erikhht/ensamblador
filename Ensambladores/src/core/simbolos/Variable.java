@@ -50,6 +50,10 @@ public class Variable {
         return Integer.toHexString(this.direccion);
     }
     
+    public String getBinDireccion(){
+        return Integer.toBinaryString(this.direccion);
+    }
+    
     public void setDireccion(int direccion){
         this.direccion = direccion;
     }
