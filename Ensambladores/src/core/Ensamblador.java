@@ -14,9 +14,10 @@ import codificaciones.CampoReg;
 import codificaciones.ModRm;
 import core.simbolos.Etiqueta;
 import core.simbolos.Instruccion;
-import core.simbolos.TipoVariable;
 import core.simbolos.Variable;
-import excepciones.VariableNotFoundException;
+import excepciones.InstruccionException;
+import excepciones.SegmentNotFoundException;
+import excepciones.SimboloNotFoundException;
 
 
 /**
@@ -32,29 +33,28 @@ public class Ensamblador {
     private ParserAssembly parser;    
     
     /** Crea una nueva instancia de Ensamblador */
-    public Ensamblador(String codigo,BuscadorSimbolos buscador) {
+    public Ensamblador(String codigo) throws SegmentNotFoundException, InstruccionException {
         this.parser = new ParserAssembly(codigo);
-        this.buscador=buscador;
+        this.buscador = new BuscadorSimbolos(this.parser.getVariables(), this.parser.getConstantes(), this.parser.getInstrucciones());
     }  
     
-    public Ensamblador(ParserAssembly parser,BuscadorSimbolos buscador){
+    public Ensamblador(ParserAssembly parser) throws SegmentNotFoundException, InstruccionException{
         this.parser = parser;
-        this.buscador = buscador;
+        this.buscador = new BuscadorSimbolos(this.parser.getVariables(), this.parser.getConstantes(), this.parser.getInstrucciones());
     }            
     
     public ParserAssembly getParser(){
         return this.parser;
     }
     
-    public String code(Instruccion inst) throws VariableNotFoundException{
-        Ensamblador e=new Ensamblador();
+    public String code(Instruccion inst) throws SimboloNotFoundException{
         ModRm mod = new ModRm();  
         String[] mod1=mod.getModRm();
         CampoReg reg = new CampoReg();
         String[] reg1 = reg.getReg();
         String[] reg3 = reg.getRegs3();
         String codificacion = new String();
-        codificacion = e.getCode(inst);        
+        codificacion = this.getCode(inst);        
         String op1=inst.getOperando1();
         String op2=inst.getOperando2();
         Etiqueta etq = null;
@@ -291,8 +291,8 @@ public class Ensamblador {
     
     
     
-    public static void main(String[] arg) throws VariableNotFoundException{         
-        Ensamblador e = new Ensamblador();
+    public static void main(String[] arg) throws SimboloNotFoundException, SegmentNotFoundException, InstruccionException{         
+        Ensamblador e = new Ensamblador(new ParserAssembly(""));
         Instruccion ins=new Instruccion("mov","ax","25h");
         String codidito = new String();
         codidito = e.code(ins);
