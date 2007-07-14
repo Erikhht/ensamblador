@@ -11,8 +11,8 @@
 package core.simbolos;
 
 import core.simbolos.constantes.Constantes;
-import core.simbolos.etiquetas.Etiquetas;
-import core.simbolos.variables.Variable;
+import core.simbolos.Etiqueta;
+import core.simbolos.Variable;
 import java.util.Vector;
 
 /**
@@ -64,15 +64,15 @@ public class TablaSimbolos {
     
     
     //************** INFROMACION DE ETIQUETAS *****************************
-    public String getNomEtq(Etiquetas etq){        
+    public String getNomEtq(Etiqueta etq){        
         nombre= etq.getNombre();
         return nombre;
     }
-    public String getTipoEtq(Etiquetas etq){
+    public String getTipoEtq(Etiqueta etq){
         tipo= etq.getTipo();
         return tipo;
     }
-    public String getDirEtq(Etiquetas etq){
+    public String getDirEtq(Etiqueta etq){
         direccion=etq.getDireccion();
         return direccion;
     }

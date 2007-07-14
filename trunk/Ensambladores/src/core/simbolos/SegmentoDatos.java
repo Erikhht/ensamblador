@@ -10,7 +10,7 @@
 
 package core.simbolos;
 
-import core.simbolos.variables.Variable;
+import core.simbolos.Variable;
 import java.util.Vector;
 
 /**
