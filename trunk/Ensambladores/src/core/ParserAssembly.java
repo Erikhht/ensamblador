@@ -11,6 +11,7 @@
 package core;
 
 import core.simbolos.constantes.Constante;
+import core.simbolos.variables.TipoVariable;
 import core.simbolos.variables.Variable;
 import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
@@ -36,7 +37,7 @@ public class ParserAssembly implements Parser {
      * Crea una nueva instancia de ParserAssembly
      */
     public ParserAssembly(String codigo) {
-        this(ParserAssembly.quitarSaltosLinea(codigo));
+        this(ParserAssembly.quitarSaltosLinea(codigo.toLowerCase()));
     }
     
     public ParserAssembly(Vector<String> codigo){
@@ -224,8 +225,12 @@ public class ParserAssembly implements Parser {
             partes.set(2, partes.get(2) + partesTemp.get(x));
         
         String[] valores = partes.get(2).split(",");
-        
-        Variable variable = new Variable(partes.get(0), partes.get(1), StringUtils.arrayToVector(valores), direccion);
+        TipoVariable tipo = TipoVariable.BYTE;
+        if(partes.get(1).equals(TipoVariable.BYTE.getTipo()))
+            tipo = TipoVariable.BYTE;
+        else if(partes.get(1).equals(TipoVariable.WORD.getTipo()))
+            tipo = TipoVariable.WORD;
+        Variable variable = new Variable(partes.get(0), tipo, StringUtils.arrayToVector(valores), direccion);
 
         return variable;
     }
@@ -257,6 +262,52 @@ public class ParserAssembly implements Parser {
             
     }
     
+    /**
+     * 
+     */
+    public Vector<Variable> establecerContadorDataSegment() throws SegmentNotFoundException{
+        Vector<Variable> variables = this.getVariables();
+        int counter = 0;
+        for(Variable var : variables){
+            int n = this.contarValores(var.getTipo(), var.getValores());
+            counter += n;
+            var.setDireccion(counter);
+        }
+        
+        return variables;
+    }
+    
+    private int contarValores(TipoVariable tipo, Vector<String> valores){
+        int contador = 0;
+            
+        //Caso en que el valor pueda ser un numero decimao o hexadecimal o sean varios 
+        if(valores.size() == 1){
+            //Si se trata de inializacion con dup, se hace la suma correspondiente para dup
+            if(valores.get(0).contains("dup")){
+                String[] cadena = valores.get(0).split("dup");
+                contador = Integer.parseInt(cadena[0]);
+
+            //en caso de que sea un numero decimal o hexadecimal
+            }else{
+                String cadena = valores.get(0);
+                char[] cadenaChar = cadena.toCharArray();
+                if(cadenaChar[cadenaChar.length - 1] == 'h'){
+                    cadena = "";
+                    for(int x = 0; x < cadenaChar.length - 1; x++ )
+                        cadena += cadenaChar[x];
+                    contador = Integer.parseInt(cadena, 16);
+                }else{
+                    contador = Integer.parseInt(cadena);
+                }
+            } 
+        }else{
+            contador = valores.size();
+        }
+        if(tipo == TipoVariable.WORD)
+            contador *= 2;
+        return contador;
+    }
+    
     public Vector<Constante> getConstantes(){
         Vector<Constante> constantes = new Vector<Constante>();
         for(String linea : this.codigo)
@@ -267,7 +318,7 @@ public class ParserAssembly implements Parser {
     }
     
     
-    public static void main(String[] arg){
+/**    public static void main(String[] arg){
         ParserAssembly parser = new ParserAssembly("");
         Vector<String> valores = new Vector<String>();
         try {
@@ -283,7 +334,7 @@ public class ParserAssembly implements Parser {
             ex.printStackTrace();
         }
         
-    }
+    }**/
     
 /**    public static void main(String[] arg){
         String cadena = ",bx";
@@ -313,4 +364,15 @@ public class ParserAssembly implements Parser {
             System.out.print(s+"///");
     }
  */
+    
+    public static void main(String[] arg){
+        String cadena = "1234he";
+        char[] cadenaChar = cadena.toCharArray();
+        if(cadenaChar[cadenaChar.length - 1] == 'h'){
+            cadena = "";
+            for(int x = 0; x < cadenaChar.length - 1; x++ )
+                cadena += cadenaChar[x];
+        }   
+        System.out.println(cadena);
+    }
 }
