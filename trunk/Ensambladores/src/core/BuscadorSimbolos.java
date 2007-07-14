@@ -10,8 +10,9 @@
 package core;
 
 import core.simbolos.Constante;
+import core.simbolos.Instruccion;
 import core.simbolos.Variable;
-import excepciones.VariableNotFoundException;
+import excepciones.SimboloNotFoundException;
 import java.util.Vector;
 
 /**
@@ -22,6 +23,7 @@ public class BuscadorSimbolos {
     
     private Vector<Variable> variables;
     private Vector<Constante> constantes;
+    private Vector<Instruccion> instrucciones;
     
     /**
      * Creates a new instance of BuscadorSimbolos
@@ -37,18 +39,26 @@ public class BuscadorSimbolos {
             this.variables.add(v);
     }
     
-    public Variable buscarVariable(String nombre) throws VariableNotFoundException{
+    public Variable buscarVariable(String nombre) throws SimboloNotFoundException{
         for(Variable v : this.variables)
             if(v.getNombre().equalsIgnoreCase(nombre))
                 return v;
-        throw new VariableNotFoundException("Variable no existente");
+        throw new SimboloNotFoundException("Variable no existente");
     }
     
-    public Constante buscarConstante(String nombre) throws VariableNotFoundException{
+    public Constante buscarConstante(String nombre) throws SimboloNotFoundException{
         for(Constante c : this.constantes)
             if(c.getNombre().equalsIgnoreCase(nombre))
                 return c;
         
-        throw new VariableNotFoundException("La constane no existe");
+        throw new SimboloNotFoundException("La constane no existe");
+    }
+    
+    public Instruccion buscarInstruccion(String nombre) throws SimboloNotFoundException{
+        for(Instruccion in : this.instrucciones)
+            if(in.getNombre().equalsIgnoreCase(nombre))
+                return in;
+        
+        throw new SimboloNotFoundException("La instruccion no existe");
     }
 }
