@@ -34,16 +34,16 @@ public class Variable {
     }
     
     public String getNombre(){
-        return nombre;
+        return this.nombre;
     }
     public TipoVariable getTipo(){
-        return tipo;
+        return this.tipo;
     }
     public Vector<String> getValores(){
-        return valores;
+        return this.valores;
     }
     public int getDireccion(){
-        return direccion;
+        return this.direccion;
     }         
     
     public String getHexDireccion(){
