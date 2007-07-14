@@ -20,8 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import static core.Ensamblador.*;
-import core.simbolos.constantes.Constante;
-import core.simbolos.variables.Variable;
+import core.simbolos.Constante;
+import core.simbolos.Variable;
 import java.util.Vector;
 import util.StringUtils;
 
