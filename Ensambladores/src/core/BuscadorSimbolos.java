@@ -35,10 +35,12 @@ public class BuscadorSimbolos {
     }
     
     public Variable buscarVariable(String nombre) throws SimboloNotFoundException{
-        for(Variable v : this.variables)
+        for(Variable v : this.variables){
+            System.out.println("Variable "+v.getNombre());
             if(v.getNombre().equalsIgnoreCase(nombre))
                 return v;
-        throw new SimboloNotFoundException("Variable no existente");
+        }
+        throw new SimboloNotFoundException("Variable no existente " + nombre);
     }
     
     public Constante buscarConstante(String nombre) throws SimboloNotFoundException{
@@ -46,7 +48,7 @@ public class BuscadorSimbolos {
             if(c.getNombre().equalsIgnoreCase(nombre))
                 return c;
         
-        throw new SimboloNotFoundException("La constane no existe");
+        throw new SimboloNotFoundException("La constante no existe " + nombre);
     }
     
     public Instruccion buscarInstruccion(String nombre) throws SimboloNotFoundException{
@@ -54,6 +56,6 @@ public class BuscadorSimbolos {
             if(in.getNombre().equalsIgnoreCase(nombre))
                 return in;
         
-        throw new SimboloNotFoundException("La instruccion no existe");
+        throw new SimboloNotFoundException("La instruccion no existe " + nombre);
     }
 }

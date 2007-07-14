@@ -14,6 +14,7 @@ import core.*;
 import excepciones.InstruccionException;
 import excepciones.NumeroColumnasDiferenteException;
 import excepciones.SegmentNotFoundException;
+import excepciones.SimboloNotFoundException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.beans.PropertyVetoException;
@@ -46,7 +47,6 @@ public class FiAssembler extends javax.swing.JFrame {
         
         this.gestorTablaVariables.setEncabezados("Nombre", "Tipo", "Valor", "Direccion");
         this.gestorTablaComen.setEncabezados("Comentario");
-        this.gestorTablaEtiq.setEncabezados("Nombre", "Direccion");
         this.gestorTablaConst.setEncabezados("Nombre", "Valor");
         this.gestorTablaInstruc.setEncabezados("Nombre", "Primer Operando", "Segundo Operando");
         
@@ -97,9 +97,10 @@ public class FiAssembler extends javax.swing.JFrame {
             jTIntruc = new javax.swing.JTable();
             jInternalFrame4 = new javax.swing.JInternalFrame();
             jToolBar2 = new javax.swing.JToolBar();
-            jButton3 = new javax.swing.JButton();
-            jButton8 = new javax.swing.JButton();
-            jButton9 = new javax.swing.JButton();
+            jButton10 = new javax.swing.JButton();
+            jInternalFrame1 = new javax.swing.JInternalFrame();
+            jScrollPane4 = new javax.swing.JScrollPane();
+            jTACodigoEnsamblado = new javax.swing.JTextArea();
             jMenuBar1 = new javax.swing.JMenuBar();
             jMenu1 = new javax.swing.JMenu();
             jMIAbrir = new javax.swing.JMenuItem();
@@ -319,30 +320,18 @@ public class FiAssembler extends javax.swing.JFrame {
                 jInternalFrame3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             );
-            jInternalFrame3.setBounds(490, 10, 370, 290);
+            jInternalFrame3.setBounds(880, 20, 370, 290);
             jDesktopPane1.add(jInternalFrame3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
             jInternalFrame4.setVisible(true);
-            jButton3.setText("llenar");
-            jToolBar2.add(jButton3);
-
-            jButton8.setText("Mostrar Contador");
-            jButton8.addActionListener(new java.awt.event.ActionListener() {
+            jButton10.setText("Ensamblar");
+            jButton10.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton8ActionPerformed(evt);
+                    jButton10ActionPerformed(evt);
                 }
             });
 
-            jToolBar2.add(jButton8);
-
-            jButton9.setText("Instrucciones");
-            jButton9.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton9ActionPerformed(evt);
-                }
-            });
-
-            jToolBar2.add(jButton9);
+            jToolBar2.add(jButton10);
 
             org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
             jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
@@ -354,8 +343,32 @@ public class FiAssembler extends javax.swing.JFrame {
                 jInternalFrame4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(jToolBar2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
             );
-            jInternalFrame4.setBounds(490, 310, 350, 60);
+            jInternalFrame4.setBounds(490, 410, 350, 60);
             jDesktopPane1.add(jInternalFrame4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+            jInternalFrame1.setVisible(true);
+            jTACodigoEnsamblado.setColumns(20);
+            jTACodigoEnsamblado.setRows(5);
+            jScrollPane4.setViewportView(jTACodigoEnsamblado);
+
+            org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
+            jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+            jInternalFrame1Layout.setHorizontalGroup(
+                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame1Layout.setVerticalGroup(
+                jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jInternalFrame1.setBounds(490, 80, 380, 320);
+            jDesktopPane1.add(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
             jMenu1.setText("Archivo");
             jMIAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -410,21 +423,23 @@ public class FiAssembler extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         try {
-            Vector<Instruccion> instrucciones = this.ensamblador.getParser().getInstrucciones();
-            Vector<String> nombres = new Vector<String>();
-            //for(Instruccion i : instrucciones)
-                nombres.add(instrucciones.get(0).getOpBin(2));
             
-            this.imprimirEnTextArea(nombres);
+            Vector<String> codigo = this.ensamblador.Generar();
+            String code = "";
+            for(String s : codigo)
+                code += s +"\n";
+            this.jTACodigoEnsamblado.setText(code);
+            
         } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SimboloNotFoundException ex) {
             ex.printStackTrace();
         } catch (InstruccionException ex) {
             ex.printStackTrace();
         }
-        
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     private void llenarTablasSimbolos(){
         //Llenado de la tabla de variables
@@ -472,20 +487,6 @@ public class FiAssembler extends javax.swing.JFrame {
         }
     }
     
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
-        try {
-            Vector<Variable> variables = this.ensamblador.getParser().establecerContadorDataSegment();
-            Vector<String> n = new Vector<String>();
-            for(Variable v : variables)
-                n.add("//"+v.getDireccion()+"//") ;
-            this.imprimirEnTextArea(n);
-        } catch (SegmentNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         Vector<Constante> constante = this.ensamblador.getParser().getConstantes();
         Vector<String> nombres = new Vector<String>();
@@ -614,6 +615,8 @@ public class FiAssembler extends javax.swing.JFrame {
             ex.printStackTrace();
         }catch(SegmentNotFoundException ex){
             ex.printStackTrace();
+        }catch(InstruccionException ex){
+            ex.printStackTrace();
         }
     }
     
@@ -653,17 +656,16 @@ public class FiAssembler extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jIFSegmentos;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JInternalFrame jInternalFrame2;
     private javax.swing.JInternalFrame jInternalFrame3;
     private javax.swing.JInternalFrame jInternalFrame4;
@@ -677,10 +679,12 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTextArea jTACodigoAsm;
+    private javax.swing.JTextArea jTACodigoEnsamblado;
     private javax.swing.JTextArea jTASegmentos;
     private javax.swing.JTable jTComent;
     private javax.swing.JTable jTConst;
