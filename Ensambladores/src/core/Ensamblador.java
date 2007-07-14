@@ -16,6 +16,7 @@ import core.simbolos.Etiqueta;
 import core.simbolos.Instruccion;
 import core.simbolos.TipoVariable;
 import core.simbolos.Variable;
+import excepciones.VariableNotFoundException;
 
 
 /**
@@ -27,26 +28,25 @@ public class Ensamblador {
     public static int CODE_SEGMENT = 0;
     public static int DATA_SEGMENT = 1;
     public static int STACK_SEGMENT = 2;    
+    private BuscadorSimbolos buscador;
     private ParserAssembly parser;    
     
     /** Crea una nueva instancia de Ensamblador */
-    public Ensamblador(String codigo) {
+    public Ensamblador(String codigo,BuscadorSimbolos buscador) {
         this.parser = new ParserAssembly(codigo);
+        this.buscador=buscador;
     }  
     
-    public Ensamblador(ParserAssembly parser){
+    public Ensamblador(ParserAssembly parser,BuscadorSimbolos buscador){
         this.parser = parser;
-    }    
-    
-    public Ensamblador(){
-        
-    }    
+        this.buscador = buscador;
+    }            
     
     public ParserAssembly getParser(){
         return this.parser;
     }
     
-    public String code(Instruccion inst){
+    public String code(Instruccion inst) throws VariableNotFoundException{
         Ensamblador e=new Ensamblador();
         ModRm mod = new ModRm();  
         String[] mod1=mod.getModRm();
@@ -59,7 +59,8 @@ public class Ensamblador {
         String op2=inst.getOperando2();
         Etiqueta etq = null;
         System.out.println(op1);
-        System.out.println(op2);
+        System.out.println(op2);                   
+        Variable var = buscador.buscarVariable(inst.getNombre());        
         
         //********************REMPLAZO DE W *************************************
         if(codificacion.contains("w")){                                    
@@ -129,9 +130,9 @@ public class Ensamblador {
                 if(op2=="al"||op2=="bl"||op2=="cl"||op2=="dl"||op2=="ah"||op2=="bh"||op2=="ch"||op2=="dh"){
                     codificacion=codificacion.replace("desp","");            
                 }else{
-            codificacion=codificacion.replace("desp",etq.getDireccion());            
+                    codificacion=codificacion.replace("desp",var.getBinDireccion());            
+                }
             }
-        }
         }
         //**************** REMPLAZO DE d **********************************
         if(codificacion.contains("000000dw")){            
@@ -288,9 +289,11 @@ public class Ensamblador {
         return code;
     }       
     
-    public static void main(String[] arg){ 
+    
+    
+    public static void main(String[] arg) throws VariableNotFoundException{         
         Ensamblador e = new Ensamblador();
-        Instruccion ins=new Instruccion("mov","loquesea","ax");
+        Instruccion ins=new Instruccion("mov","ax","25h");
         String codidito = new String();
         codidito = e.code(ins);
         System.out.print(codidito);
