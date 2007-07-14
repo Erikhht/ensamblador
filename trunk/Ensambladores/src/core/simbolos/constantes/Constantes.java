@@ -18,7 +18,7 @@ import java.util.Vector;
 public class Constantes {
   private String nombre;
   private String tipo;
-  private Vector valor = new Vector();  
+  private Vector<String> valor = new Vector<String>();  
     /** Creates a new instance of Constantes */
     public Constantes(String Nombre, String Tipo, Vector Valor) {
         this.nombre=Nombre;
@@ -32,7 +32,7 @@ public class Constantes {
     public String getTipo(){
         return tipo;
     }
-    public Vector getValue(){
+    public Vector<String> getValue(){
         return valor;
     }
 }
