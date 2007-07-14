@@ -10,6 +10,7 @@
 
 package core;
 
+import core.simbolos.constantes.Constante;
 import core.simbolos.variables.Variable;
 import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
@@ -29,6 +30,7 @@ public class ParserAssembly implements Parser {
      * Variable que almacena cada linea de codigo en un vector de strings
      */
     private final Vector<String> codigo;
+    private final Vector<String> comentarios;
     
     /**
      * Crea una nueva instancia de ParserAssembly
@@ -38,6 +40,7 @@ public class ParserAssembly implements Parser {
     }
     
     public ParserAssembly(Vector<String> codigo){
+        this.comentarios = this.getComentariosToken(ParserAssembly.TOKEN_COMENTARIO, codigo);
         //Elimina los comentarios del codigo para el resto de las operaciones con este codigo fuente
         codigo = this.quitarComentarios(ParserAssembly.TOKEN_COMENTARIO, codigo);
         this.codigo = codigo;
@@ -127,6 +130,21 @@ public class ParserAssembly implements Parser {
         return codigo;
     }
     
+    public Vector<String> getComentarios(){
+        return this.comentarios;
+    }
+    
+    public Vector<String> getComentariosToken(String token, Vector<String> codigo){
+        Vector<String> comentarios = new Vector<String>();
+        String[] temp;
+        for(int x = 0; x < codigo.size(); x++){
+            temp = codigo.get(x).split(token);
+            if(temp.length >= 2)
+                comentarios.add(temp[1]);
+        }   
+        return comentarios;
+    }
+    
     public Vector<String> getCodigo(){
         return this.codigo;
     }
@@ -213,7 +231,6 @@ public class ParserAssembly implements Parser {
     }
     
     /**
-     * TODO no terminado
      * Este metodo extrae el nombre de las variables y su tipo, del segmento de codigo
      */
     public Vector<Variable> getVariables() throws SegmentNotFoundException{
@@ -225,15 +242,29 @@ public class ParserAssembly implements Parser {
         for(String linea : segmentoDatos){
             if(linea.contains(EQU)) continue;
             try {
-                variables.add(this.getVariable(linea, 3));
+                //la direccion del contador del programa es puesta a cero 
+                variables.add(this.getVariable(linea, 0));
             } catch (InstruccionException ex) {
                 ex.printStackTrace();
             }
- //           variables = new Variable(varTemp[]);
         }
         return variables;
     }
     
+    public Constante getConstante(String linea){
+        Vector<String> partes = this.quitarEspacios(linea);
+        return new Constante(partes.get(0), partes.get(2));
+            
+    }
+    
+    public Vector<Constante> getConstantes(){
+        Vector<Constante> constantes = new Vector<Constante>();
+        for(String linea : this.codigo)
+            if(linea.contains(EQU))
+                constantes.add(this.getConstante(linea));
+        
+        return constantes;
+    }
     
     
     public static void main(String[] arg){

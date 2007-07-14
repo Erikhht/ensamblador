@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import static core.Ensamblador.*;
+import core.simbolos.constantes.Constante;
 import core.simbolos.variables.Variable;
 import java.util.Vector;
 
@@ -70,6 +71,8 @@ public class FiAssembler extends javax.swing.JFrame {
             jButton2 = new javax.swing.JButton();
             jButton4 = new javax.swing.JButton();
             jButton5 = new javax.swing.JButton();
+            jButton6 = new javax.swing.JButton();
+            jButton7 = new javax.swing.JButton();
             jInternalFrame3 = new javax.swing.JInternalFrame();
             jScrollPane3 = new javax.swing.JScrollPane();
             jTSimbolos = new javax.swing.JTable();
@@ -179,6 +182,24 @@ public class FiAssembler extends javax.swing.JFrame {
             });
 
             jToolBar1.add(jButton5);
+
+            jButton6.setText("Comentarios");
+            jButton6.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton6ActionPerformed(evt);
+                }
+            });
+
+            jToolBar1.add(jButton6);
+
+            jButton7.setText("Constantes");
+            jButton7.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton7ActionPerformed(evt);
+                }
+            });
+
+            jToolBar1.add(jButton7);
 
             org.jdesktop.layout.GroupLayout jInternalFrame2Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame2.getContentPane());
             jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
@@ -312,6 +333,17 @@ public class FiAssembler extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        Vector<Constante> constante = this.ensamblador.getParser().getConstantes();
+        Vector<String> nombres = new Vector<String>();
+        for(Constante s : constante) nombres.add(s.getValor());
+        this.imprimirEnTextArea(nombres);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        this.imprimirEnTextArea(this.ensamblador.getParser().getComentarios());
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
             Vector<Variable> variables = this.ensamblador.getParser().getVariables();
@@ -325,6 +357,18 @@ public class FiAssembler extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void imprimirEnTextArea(Vector<String> lineas){
+        String texto = "";
+        for(String s : lineas)
+            texto += s + "\n";
+        this.jTASegmentos.setText(texto);
+        try {
+            this.jIFSegmentos.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        this.segmentSelected(STACK_SEGMENT);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -445,6 +489,8 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jIFSegmentos;
