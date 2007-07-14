@@ -11,6 +11,7 @@ package interfaz;
 
 import archivo.*;
 import core.*;
+import excepciones.InstruccionException;
 import excepciones.NumeroColumnasDiferenteException;
 import excepciones.SegmentNotFoundException;
 import java.awt.Graphics;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import static core.Ensamblador.*;
 import core.simbolos.Constante;
+import core.simbolos.Instruccion;
 import core.simbolos.Variable;
 import java.util.Vector;
 import util.StringUtils;
@@ -96,6 +98,7 @@ public class FiAssembler extends javax.swing.JFrame {
             jToolBar2 = new javax.swing.JToolBar();
             jButton3 = new javax.swing.JButton();
             jButton8 = new javax.swing.JButton();
+            jButton9 = new javax.swing.JButton();
             jMenuBar1 = new javax.swing.JMenuBar();
             jMenu1 = new javax.swing.JMenu();
             jMIAbrir = new javax.swing.JMenuItem();
@@ -330,6 +333,15 @@ public class FiAssembler extends javax.swing.JFrame {
 
             jToolBar2.add(jButton8);
 
+            jButton9.setText("Instrucciones");
+            jButton9.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton9ActionPerformed(evt);
+                }
+            });
+
+            jToolBar2.add(jButton9);
+
             org.jdesktop.layout.GroupLayout jInternalFrame4Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame4.getContentPane());
             jInternalFrame4.getContentPane().setLayout(jInternalFrame4Layout);
             jInternalFrame4Layout.setHorizontalGroup(
@@ -395,6 +407,22 @@ public class FiAssembler extends javax.swing.JFrame {
             );
             pack();
         }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        try {
+            Vector<Instruccion> instrucciones = this.ensamblador.getParser().getInstrucciones();
+            Vector<String> nombres = new Vector<String>();
+            //for(Instruccion i : instrucciones)
+                nombres.add(instrucciones.get(0).getOpBin(2));
+            
+            this.imprimirEnTextArea(nombres);
+        } catch (SegmentNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (InstruccionException ex) {
+            ex.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     private void llenarTablasSimbolos(){
         //Llenado de la tabla de variables
@@ -614,6 +642,7 @@ public class FiAssembler extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jIFCodigoAsm;
     private javax.swing.JInternalFrame jIFSegmentos;
