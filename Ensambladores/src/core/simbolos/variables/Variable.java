@@ -20,13 +20,13 @@ public class Variable {
     
 
     private String nombre;
-    private String tipo;
+    private TipoVariable tipo;
     /**Vector con los valores de inicializacion de la variable*/
     private Vector<String> valores = new Vector<String>();
     private int direccion;
 
     /** Crea una nueva instancia de Variable */
-    public Variable(String nombre, String tipo, Vector<String> valores, int direccion) {
+    public Variable(String nombre, TipoVariable tipo, Vector<String> valores, int direccion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.valores = valores;
@@ -36,7 +36,7 @@ public class Variable {
     public String getNombre(){
         return nombre;
     }
-    public String getTipo(){
+    public TipoVariable getTipo(){
         return tipo;
     }
     public Vector<String> getValores(){
@@ -45,6 +45,10 @@ public class Variable {
     public int getDireccion(){
         return direccion;
     }         
+    
+    public String getHexDireccion(){
+        return Integer.toHexString(this.direccion);
+    }
     
     public void setDireccion(int direccion){
         this.direccion = direccion;
