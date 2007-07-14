@@ -42,7 +42,7 @@ public class Ensamblador {
         return this.parser;
     }
     
-    public void code(Instruccion inst){
+    public String code(Instruccion inst){
         ModRm mod = new ModRm();  
         String[] mod1=mod.getModRm();
         CampoReg reg = new CampoReg();
@@ -79,6 +79,8 @@ public class Ensamblador {
                 }
             }
         }
+        
+        //******************* REMPLAZO DE REGS3 ******************************** 
         if(codificacion.contains("regs3")){
             for(int i=0;i<reg3.length;i++){
                 if(reg3[i].equals(op1)){
@@ -87,10 +89,19 @@ public class Ensamblador {
             }
         }
         
-       
+        //**************** REMPLAZO DE INM **********************************
+        if(codificacion.contains("Inm")){
+            codificacion.replace("Inm",op2);
+        }
+        
+        int hexa=Integer.parseInt(codificacion);
+        codificacion = Integer.toHexString(hexa);       
+        return codificacion;
     }    
     
     public String getCode(Instruccion inst){
+        int ban1=0;
+        int ban2=0;
         String name;
         String ope1;
         String ope2;
@@ -98,86 +109,123 @@ public class Ensamblador {
         name=inst.getNombre();  
         ope1=inst.getOperando1();
         ope2=inst.getOperando2();
+        
+//********************************* DETECTAMOS QUE ES CADA OPERANDO (REG,REGS,INM,MEM)*****************************************************        
             if(ope1.equals("ax")||ope1.equals("bx")||ope1.equals("cx")||ope1.equals("dx")||ope1.equals("al")||ope1.equals("bl")||ope1.equals("cl")||ope1.equals("dl")||ope1.equals("ah")||ope1.equals("bh")||ope1.equals("ch")||ope1.equals("dh")){
                 ope1="reg";                
+                ban1=1;
             }
             if(ope2.equals("ax")||ope2.equals("bx")||ope2.equals("cx")||ope2.equals("dx")||ope2.equals("al")||ope2.equals("bl")||ope2.equals("cl")||ope2.equals("dl")||ope2.equals("ah")||ope2.equals("bh")||ope2.equals("ch")||ope2.equals("dh")){
                 ope2="reg";                
+                ban2=1;
             }
             if(ope1.equals("ds")||ope1.equals("ss")||ope1.equals("es")||ope1.equals("cs")){
                 ope1="regs";
+                ban1=1;
             }
             if(ope2.equals("ds")||ope2.equals("ss")||ope2.equals("es")||ope2.equals("cs")){
                 ope2="regs";
+                ban2=1;
             }
-            if(ope2.equals("0")||ope2.equals("1")||ope2.equals("2")||ope2.equals("3")||ope2.equals("4")||ope2.equals("5")||ope2.equals("6")||ope2.equals("7")||ope2.equals("8")||ope2.equals("9")||ope2.equals("a")||ope2.equals("b")||ope2.equals("c")||ope2.equals("d")||ope2.equals("f")){
+            if(ope2.contains("h")){
                 ope2="inm";
+                ban2=1;
             }
-           if(ope1.length()>2){
+           if(ban1!=0){
                 ope1="mem";
            }
-           if(ope2.length()>2){
+           if(ban2!=0){
                 ope2="mem";
            }
-            
+        
+//**************************** CODIFICACION DE MOV *********************************************            
         if(name.equals("mov")){            
+           //*************** mov reg a reg/mem *********************************** 
            if(ope2.equals("reg")&&(ope1.equals("reg")||ope1.equals("mem"))){
                 code="1000100w"+"mod"+"reg"+"r/m"+"desp";
            }
+           
+           //**************** mov reg/mem a reg *********************************           
            if((ope2.equals("reg")||ope2.equals("mem"))&&ope1.equals("reg")){
                 code="1000101w"+"mod"+"reg"+"r/m"+"desp";
-           } 
+           }
+           
+           //**************mov inmediaro a reg/mem *******************************
            if(ope2.equals("inm")&&(ope1.equals("reg")||ope1.equals("mem"))){
                 code="1100011w"+"mod"+"000"+"r/m"+"desp"+"Inm";
            } 
-           if(ope2.equals("inm")&&ope1.equals("reg")){
-                code="1011w"+"reg"+"Inm";
-           }
+                      
+           //******************** mov reg a regs *******************************
            if(ope2.equals("reg")&&ope1.equals("regs")){
                 code="10001110"+"mod"+"regs3"+"r/m";
            } 
+           
+           //****************** mov regs a reg ********************************
            if(ope2.equals("regs")&&ope1.equals("reg")){
                 code="10001100"+"mod"+"regs3"+"r/m";
            } 
         }
+        
+//**************************** CODIFICACION DE ADD ***********************************************        
         if(name.equals("add")){
+            //************ add reg con reg ***********************************+
             if(ope2.equals("reg")&&ope1.equals("reg")){
                 code="000000dw"+"mod"+"reg"+"r/m";
             }
+            
+            //************** add reg con mem *******************************
             if(ope2.equals("reg")&&ope1.equals("mem")){
                 code="0000000w"+"mod reg r/m"+"desp";
             }
+            
+            //************ add reg con meme *******************************
             if(ope2.equals("mem")&&ope1.equals("reg")){
                 code="0000001w"+"mod reg r/m"+"desp";                
             }
+            
+            //************* add inm con reg/men ***************************
             if(ope2.equals("inm")&&(ope1.equals("reg")||ope1.equals("mem"))){
                 code="100000sw"+"mod"+"000"+"r/m"+"desp"+"Inm";
             }                            
         }
+        
+//********************************** CODIFICACION DE AND ******************************************        
         if(name.equals("and")){
+            
+            //************ and reg con reg ****************************
             if(ope2.equals("reg")&&ope1.equals("reg")){
                 code="001000dw"+"mod"+"reg"+"r/m";
             }
+            
+            //************ and reg con mem **************************
             if(ope2.equals("reg")&&ope1.equals("mem")){
                 code="0010000w"+"mod"+"reg"+"r/m"+"desp";
             }
+            
+            //************ and mem con reg ***********************
             if(ope2.equals("mem")&&ope1.equals("reg")){
                 code="0010001w"+"mod"+"reg"+"r/m"+"desp";
             }
+            //************ and inm con reg/mem
             if(ope2.equals("inm")&&(ope1.equals("reg")||ope1.equals("mem"))){
                 code="1000000w"+"mod"+"100"+"r/m"+"desp"+"Inm";
             }
         }
+        
+//*********************** CODIFICACION DE LEA ***************************************************        
         if(name.equals("lea")){
             code="10001101"+"mod"+"reg"+"r/m";
         }
+        
+//*********************** CODIFICACION DE JMP ***************************************************        
         if(name.equals("jmp")){
             code="11101001"+"desp";
         }            
+        
+//*********************** CODIFICACION DE INT ***************************************************        
         if(name.equals("int")){
             code="11001101"+"Inm";
         }    
         return code;
-    }
-    
+    }       
 }
