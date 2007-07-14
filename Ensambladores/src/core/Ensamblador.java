@@ -65,16 +65,8 @@ public class Ensamblador {
         if(codificacion.contains("w")){                                    
            if(op1.equals("ax")||op1.equals("bx")||op1.equals("cx")||op1.equals("dx")){                               
                codificacion = codificacion.replace("w","1");
-           }else{
-               TipoVariable tipo;
-               String k = null;
-               BuscadorVariable encontro = null;
-               k=encontro.getVarFind(op1);
-               if(k=="dw"){
-                codificacion = codificacion.replace("w","1");    
-               }else{               
-               codificacion = codificacion.replace("w","0");
-           }
+           }else{                             
+               codificacion = codificacion.replace("w","0");           
            }
         }
         
@@ -116,11 +108,30 @@ public class Ensamblador {
                     codificacion=codificacion.replace("reg",reg1[i+1]);
                 }
             }
+            if(codificacion.contains("reg")){
+                for(int i=0;i<reg1.length;i++){
+                    if(reg1[i].equals(op2)){
+                        codificacion=codificacion.replace("reg",reg1[i+1]);
+                    }
+                }
+            }
         }
         
         //**************** REMPLAZO DE INM **********************************
         if(codificacion.contains("Inm")){            
             codificacion=codificacion.replace("Inm",op2);
+        }
+        //************** DESPLAZAMIENTO DE DESP PASA ESTO MAS ARRIBA**********************
+        if(codificacion.contains("desp")){
+            if(op2=="ax"||op2=="bx"||op2=="cx"||op2=="dx"){
+               codificacion=codificacion.replace("desp","");            
+            }else{
+                if(op2=="al"||op2=="bl"||op2=="cl"||op2=="dl"||op2=="ah"||op2=="bh"||op2=="ch"||op2=="dh"){
+                    codificacion=codificacion.replace("desp","");            
+                }else{
+            codificacion=codificacion.replace("desp",etq.getDireccion());            
+            }
+        }
         }
         //**************** REMPLAZO DE d **********************************
         if(codificacion.contains("000000dw")){            
@@ -130,16 +141,9 @@ public class Ensamblador {
             codificacion=codificacion.replace("d","0");
         }
         //**************** REMPLAZO DE S**********************************
-        if(codificacion.contains("100000s")){  
-            System.out.println("Aqui estoy");
+        if(codificacion.contains("100000s")){              
             codificacion=codificacion.replace("s","0");
-        }
-        
-        System.out.println(codificacion);
-         //************** DESPLAZAMIENTO DE DESP PASA ESTO MAS ARRIBA**********************
-        if(codificacion.contains("desp")){
-            codificacion=codificacion.replace("desp",etq.getDireccion());
-        }
+        }                   
         System.out.println("aqui: "+codificacion);
         int hexa; 
         hexa= Integer.parseInt(codificacion,2);
@@ -286,7 +290,7 @@ public class Ensamblador {
     
     public static void main(String[] arg){ 
         Ensamblador e = new Ensamblador();
-        Instruccion ins=new Instruccion("mov","cx","4h");
+        Instruccion ins=new Instruccion("mov","loquesea","ax");
         String codidito = new String();
         codidito = e.code(ins);
         System.out.print(codidito);
