@@ -12,7 +12,11 @@ package core;
 
 import codificaciones.CampoReg;
 import codificaciones.ModRm;
+import core.simbolos.Etiqueta;
 import core.simbolos.Instruccion;
+import core.simbolos.TipoVariable;
+import core.simbolos.Variable;
+
 
 /**
  *
@@ -43,32 +47,65 @@ public class Ensamblador {
     }
     
     public String code(Instruccion inst){
+        Ensamblador e=new Ensamblador();
         ModRm mod = new ModRm();  
         String[] mod1=mod.getModRm();
         CampoReg reg = new CampoReg();
         String[] reg1 = reg.getReg();
         String[] reg3 = reg.getRegs3();
-        String codificacion = getCode(inst);
+        String codificacion = new String();
+        codificacion = e.getCode(inst);        
         String op1=inst.getOperando1();
         String op2=inst.getOperando2();
-        Variable var;
+        Etiqueta etq = null;
+        System.out.println(op1);
+        System.out.println(op2);
         
         //********************REMPLAZO DE W *************************************
-        if(codificacion.contains("w")){
-           if(op1.equals("ax")||op1.equals("bx")||op1.equals("cx")||op1.equals("dx")){
-               codificacion.replace("w","1");
+        if(codificacion.contains("w")){                                    
+           if(op1.equals("ax")||op1.equals("bx")||op1.equals("cx")||op1.equals("dx")){                               
+               codificacion = codificacion.replace("w","1");
            }else{
-               codificacion.replace("w","0");
+               TipoVariable tipo;
+               String k = null;
+               BuscadorVariable encontro = null;
+               k=encontro.getVarFind(op1);
+               if(k=="dw"){
+                codificacion = codificacion.replace("w","1");    
+               }else{               
+               codificacion = codificacion.replace("w","0");
+           }
            }
         }
         
         //********************* REMPLAZO DE MOD ***********************************
-        if(codificacion.contains("mod")){
-            for(int i=0;i<mod1.length;i++){
-                if(mod1[i].equals(op1)){
-                    codificacion.replace("mod",mod1[i+1]);
-                    codificacion.replace("r/m",mod1[i+2]);
+        if(codificacion.contains("mod")){            
+            for(int i=0;i<mod1.length;i++){                
+                if(mod1[i].equals(op2)==true){                                    
+                    codificacion=codificacion.replace("mod",mod1[i+1]);
+                    codificacion=codificacion.replace("r/m",mod1[i+2]);                   
                 }
+            }
+            if(codificacion.contains("mod")){                
+                    codificacion=codificacion.replace("mod","00");
+                    codificacion=codificacion.replace("r/m","110");                
+            }
+        }
+        
+        //******************* REMPLAZO DE REGS3 ******************************** 
+        if(codificacion.contains("regs3")){
+            if(codificacion.contains("10001100")){
+               for(int i=0;i<reg3.length;i++){
+                if(reg3[i].equals(op2)){
+                    codificacion=codificacion.replace("regs3",reg3[i+1]);
+                }
+            } 
+            }else{
+            for(int i=0;i<reg3.length;i++){
+                if(reg3[i].equals(op1)){
+                    codificacion=codificacion.replace("regs3",reg3[i+1]);
+                }
+            }
             }
         }
         
@@ -76,32 +113,36 @@ public class Ensamblador {
         if(codificacion.contains("reg")){
             for(int i=0;i<reg1.length;i++){
                 if(reg1[i].equals(op1)){
-                    codificacion.replace("reg",reg1[i+1]);
-                }
-            }
-        }
-        
-        //******************* REMPLAZO DE REGS3 ******************************** 
-        if(codificacion.contains("regs3")){
-            for(int i=0;i<reg3.length;i++){
-                if(reg3[i].equals(op1)){
-                    codificacion.replace("regs3",reg3[i+1]);
+                    codificacion=codificacion.replace("reg",reg1[i+1]);
                 }
             }
         }
         
         //**************** REMPLAZO DE INM **********************************
-        if(codificacion.contains("Inm")){
-            codificacion.replace("Inm",op2);
+        if(codificacion.contains("Inm")){            
+            codificacion=codificacion.replace("Inm",op2);
         }
-         //************** DESPLAZAMIENTO DE DESP ******************************
+        //**************** REMPLAZO DE d **********************************
+        if(codificacion.contains("000000dw")){            
+            codificacion=codificacion.replace("d","0");
+        }
+        if(codificacion.contains("001000d")){            
+            codificacion=codificacion.replace("d","0");
+        }
+        //**************** REMPLAZO DE S**********************************
+        if(codificacion.contains("100000s")){  
+            System.out.println("Aqui estoy");
+            codificacion=codificacion.replace("s","0");
+        }
+        
+        System.out.println(codificacion);
+         //************** DESPLAZAMIENTO DE DESP PASA ESTO MAS ARRIBA**********************
         if(codificacion.contains("desp")){
-            codificacion.replace("desp",var.getHexDireccion());
+            codificacion=codificacion.replace("desp",etq.getDireccion());
         }
-        
-        
-        
-        int hexa=Integer.parseInt(codificacion);
+        System.out.println("aqui: "+codificacion);
+        int hexa; 
+        hexa= Integer.parseInt(codificacion,2);
         codificacion = Integer.toHexString(hexa);       
         return codificacion;
     }    
@@ -112,11 +153,10 @@ public class Ensamblador {
         String name;
         String ope1;
         String ope2;
-        String code=null;
+        String code=new String();
         name=inst.getNombre();  
         ope1=inst.getOperando1();
-        ope2=inst.getOperando2();
-        
+        ope2=inst.getOperando2();        
 //********************************* DETECTAMOS QUE ES CADA OPERANDO (REG,REGS,INM,MEM)*****************************************************        
             if(ope1.equals("ax")||ope1.equals("bx")||ope1.equals("cx")||ope1.equals("dx")||ope1.equals("al")||ope1.equals("bl")||ope1.equals("cl")||ope1.equals("dl")||ope1.equals("ah")||ope1.equals("bh")||ope1.equals("ch")||ope1.equals("dh")){
                 ope1="reg";                
@@ -138,15 +178,22 @@ public class Ensamblador {
                 ope2="inm";
                 ban2=1;
             }
-           if(ban1!=0){
+        
+           if(ope2==""){
+                ope2="null";
+                ban2=1;
+           }
+           if(ban1==0){
                 ope1="mem";
            }
-           if(ban2!=0){
+           if(ban2==0){
                 ope2="mem";
-           }
-        
+           }   
+           System.out.println(ope1);
+           System.out.println(ope2);
 //**************************** CODIFICACION DE MOV *********************************************            
-        if(name.equals("mov")){            
+        if(name.equals("mov")){
+        
            //*************** mov reg a reg/mem *********************************** 
            if(ope2.equals("reg")&&(ope1.equals("reg")||ope1.equals("mem"))){
                 code="1000100w"+"mod"+"reg"+"r/m"+"desp";
@@ -170,7 +217,7 @@ public class Ensamblador {
            //****************** mov regs a reg ********************************
            if(ope2.equals("regs")&&ope1.equals("reg")){
                 code="10001100"+"mod"+"regs3"+"r/m";
-           } 
+           }         
         }
         
 //**************************** CODIFICACION DE ADD ***********************************************        
@@ -182,12 +229,12 @@ public class Ensamblador {
             
             //************** add reg con mem *******************************
             if(ope2.equals("reg")&&ope1.equals("mem")){
-                code="0000000w"+"mod reg r/m"+"desp";
+                code="0000000w"+"mod"+"reg"+"r/m"+"desp";
             }
             
             //************ add reg con meme *******************************
             if(ope2.equals("mem")&&ope1.equals("reg")){
-                code="0000001w"+"mod reg r/m"+"desp";                
+                code="0000001w"+"mod"+"reg"+"r/m"+"desp";                
             }
             
             //************* add inm con reg/men ***************************
@@ -226,13 +273,22 @@ public class Ensamblador {
         
 //*********************** CODIFICACION DE JMP ***************************************************        
         if(name.equals("jmp")){
-            code="11101001"+"desp";
+            code="11101001"+"desp";            
         }            
         
 //*********************** CODIFICACION DE INT ***************************************************        
-        if(name.equals("int")){
-            code="11001101"+"Inm";
-        }    
+        if(name.equals("int")){               
+            code="11001101"+inst.getOperando1();            
+        }            
+        System.out.println(code);   
         return code;
     }       
+    
+    public static void main(String[] arg){ 
+        Ensamblador e = new Ensamblador();
+        Instruccion ins=new Instruccion("mov","cx","4h");
+        String codidito = new String();
+        codidito = e.code(ins);
+        System.out.print(codidito);
+    }
 }
