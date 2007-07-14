@@ -10,9 +10,7 @@
 
 package core;
 
-import core.simbolos.Constante;
-import core.simbolos.TipoVariable;
-import core.simbolos.Variable;
+import core.simbolos.*;
 import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
 import interfaces.Parser;
@@ -199,6 +197,14 @@ public class ParserAssembly implements Parser {
         }
         return partes;
     }
+    
+    public Vector<String> separarDosOperandos(String linea) throws InstruccionException{
+        Vector<String> partesTemp = this.quitarEspacios(linea);
+        if(partesTemp.size() != 2)
+            throw new InstruccionException("Instruccion no valida");
+        
+        return partesTemp;
+    }
        
     /**
      * Obtiene el nombre y valor de las variables, las cuales deben estar en el siguiente formato
@@ -289,16 +295,7 @@ public class ParserAssembly implements Parser {
 
             //en caso de que sea un numero decimal o hexadecimal
             }else{
-                String cadena = valores.get(0);
-                char[] cadenaChar = cadena.toCharArray();
-                if(cadenaChar[cadenaChar.length - 1] == 'h'){
-                    cadena = "";
-                    for(int x = 0; x < cadenaChar.length - 1; x++ )
-                        cadena += cadenaChar[x];
-                    contador = Integer.parseInt(cadena, 16);
-                }else{
-                    contador = Integer.parseInt(cadena);
-                }
+                contador = this.hexaToInt(valores.get(0));
             } 
         }else{
             contador = valores.size();
@@ -306,6 +303,20 @@ public class ParserAssembly implements Parser {
         if(tipo == TipoVariable.WORD)
             contador *= 2;
         return contador;
+    }
+    
+    /**
+     * Convierte una string de la forma FFH a su representacion en valor decimal
+     */
+    public static int hexaToInt(String cadena){
+        char[] cadenaChar = cadena.toCharArray();
+        if(cadenaChar[cadenaChar.length - 1] == 'h' || cadenaChar[cadenaChar.length - 1] == 'H'){
+            cadena = "";
+            for(int x = 0; x < cadenaChar.length - 1; x++ )
+                cadena += cadenaChar[x];
+            return Integer.parseInt(cadena, 16);
+        }else
+            return Integer.parseInt(cadena);
     }
     
     public Vector<Constante> getConstantes(){
@@ -317,9 +328,41 @@ public class ParserAssembly implements Parser {
         return constantes;
     }
     
-//    public Vector<Instruccion> getInstrucciones(){
-//        
-//    }
+    public Vector<Instruccion> getInstrucciones() throws SegmentNotFoundException, InstruccionException{
+        Vector<String> codigo = this.getVectorSegment(Ensamblador.CODE_SEGMENT);
+        Vector<Instruccion> instrucciones = new Vector<Instruccion>();
+        for(String linea : codigo){
+            Vector<String> partes = this.quitarEspacios(linea);
+            
+            if(linea.contains(NombreInstruccion.MOV.getNombre()) 
+            || linea.contains(NombreInstruccion.ADD.getNombre())
+            || linea.contains(NombreInstruccion.AND.getNombre())
+            || linea.contains(NombreInstruccion.LEA.getNombre())){
+                
+                Vector<String> ints = this.separarTresOperandos(linea);
+                instrucciones.add(new Instruccion(ints.get(0), ints.get(1), ints.get(2)));
+            
+            }else if(linea.contains(NombreInstruccion.INT.getNombre())
+                    || linea.contains(NombreInstruccion.JMP.getNombre())){
+                
+                Vector<String> ints = this.separarDosOperandos(linea);
+                instrucciones.add(new Instruccion(ints.get(0), ints.get(1), null));
+            }
+        }
+        
+        return instrucciones;
+    }
+    
+    public static void main(String[] arg){
+        ParserAssembly parser = new ParserAssembly("");
+        try {
+            Vector<String> op = parser.separarTresOperandos("   mov    ax   , bh");
+            for(String s : op)
+                System.out.print(s+"//");
+        } catch (InstruccionException ex) {
+            ex.printStackTrace();
+        }
+    }
     
 /**    public static void main(String[] arg){
         ParserAssembly parser = new ParserAssembly("");
@@ -368,7 +411,7 @@ public class ParserAssembly implements Parser {
     }
  */
     
-    public static void main(String[] arg){
+ /**   public static void main(String[] arg){
         String cadena = "1234he";
         char[] cadenaChar = cadena.toCharArray();
         if(cadenaChar[cadenaChar.length - 1] == 'h'){
@@ -377,5 +420,5 @@ public class ParserAssembly implements Parser {
                 cadena += cadenaChar[x];
         }   
         System.out.println(cadena);
-    }
+    }**/
 }
