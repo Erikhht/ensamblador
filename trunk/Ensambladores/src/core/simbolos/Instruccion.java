@@ -44,10 +44,17 @@ public class Instruccion {
         return operando1;
     }
     
+    public void setoperando2(String op){
+        operando2=op;
+    }
+    public void setoperando1(String op){
+        operando1=op;
+    }
+    
     public String getOperando2(){
         return operando2;
     }
-    
+
     /**
      * Si el operando es un digito, lo devuelve en su forma hexadecimal
      * Dicho digito, debe estar en base 10
@@ -59,6 +66,7 @@ public class Instruccion {
         
         int numero = ParserAssembly.hexaToInt(operando);
         return Integer.toHexString(numero);
+
     }
     
     public String getOpBin(int op){
