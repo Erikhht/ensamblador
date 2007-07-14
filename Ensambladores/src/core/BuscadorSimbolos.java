@@ -9,7 +9,7 @@
 
 package core;
 
-import core.simbolos.TipoVariable;
+import core.simbolos.Constante;
 import core.simbolos.Variable;
 import excepciones.VariableNotFoundException;
 import java.util.Vector;
@@ -21,12 +21,20 @@ import java.util.Vector;
 public class BuscadorSimbolos {
     
     private Vector<Variable> variables;
+    private Vector<Constante> constantes;
     
     /**
      * Creates a new instance of BuscadorSimbolos
      */
-    public BuscadorSimbolos(Vector<Variable> var) {
+    public BuscadorSimbolos(Vector<Variable> var, Vector<Constante> constantes) {
         this.variables = var;
+        this.constantes = constantes;
+    }
+    
+    public BuscadorSimbolos(Variable... var){
+        this.variables = new Vector<Variable>();
+        for(Variable v : var)
+            this.variables.add(v);
     }
     
     public Variable buscarVariable(String nombre) throws VariableNotFoundException{
@@ -34,5 +42,13 @@ public class BuscadorSimbolos {
             if(v.getNombre().equalsIgnoreCase(nombre))
                 return v;
         throw new VariableNotFoundException("Variable no existente");
+    }
+    
+    public Constante buscarConstante(String nombre) throws VariableNotFoundException{
+        for(Constante c : this.constantes)
+            if(c.getNombre().equalsIgnoreCase(nombre))
+                return c;
+        
+        throw new VariableNotFoundException("La constane no existe");
     }
 }
