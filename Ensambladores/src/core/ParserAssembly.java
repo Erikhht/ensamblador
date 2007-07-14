@@ -10,9 +10,9 @@
 
 package core;
 
-import core.simbolos.constantes.Constante;
-import core.simbolos.variables.TipoVariable;
-import core.simbolos.variables.Variable;
+import core.simbolos.Constante;
+import core.simbolos.TipoVariable;
+import core.simbolos.Variable;
 import excepciones.InstruccionException;
 import excepciones.SegmentNotFoundException;
 import interfaces.Parser;
@@ -317,6 +317,9 @@ public class ParserAssembly implements Parser {
         return constantes;
     }
     
+//    public Vector<Instruccion> getInstrucciones(){
+//        
+//    }
     
 /**    public static void main(String[] arg){
         ParserAssembly parser = new ParserAssembly("");
