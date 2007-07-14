@@ -11,6 +11,7 @@ package core;
 
 import core.simbolos.TipoVariable;
 import core.simbolos.Variable;
+import excepciones.VariableNotFoundException;
 import java.util.Vector;
 
 /**
@@ -18,23 +19,18 @@ import java.util.Vector;
  * @author Franxo
  */
 public class BuscadorVariable {
-    private Vector<Variable> variable = new Vector<Variable>();
+    
+    private Vector<Variable> variables;
+    
     /** Creates a new instance of BuscadorVariable */
-    public BuscadorVariable(Variable var) {
-        variable.add(var);
+    public BuscadorVariable(Vector<Variable> var) {
+        this.variables = var;
     }
-    public String getVarFind(String var){
-        String varenc = null;
-        Variable comparacion = null;
-        String other;
-        TipoVariable tipo;
-        for(int i=0;i<variable.size();i++){
-            other=variable.elementAt(i).getNombre();
-            if(other==var){
-                tipo=comparacion.getTipo();
-                varenc=tipo.getTipo();
-            }
-        }                
-        return varenc;
-    }       
+    
+    public Variable buscarVariable(String nombre) throws VariableNotFoundException{
+        for(Variable v : this.variables)
+            if(v.getNombre().equalsIgnoreCase(nombre))
+                return v;
+        throw new VariableNotFoundException("Variable no existente");
+    }
 }
